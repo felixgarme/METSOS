@@ -1,6 +1,6 @@
 <xml xmlns="http://www.w3.org/1999/xhtml">
   <tab name="Init" type="InitTab" active="false" scrollx="1602.75" scrolly="797.75" scale="0.9"></tab>
-  <tab name="General" type="CommonTab" active="false" scrollx="993.5" scrolly="-207.25" scale="1">
+  <tab name="General" type="CommonTab" active="false" scrollx="697.25" scrolly="-412.25" scale="1">
     <block xmlns="https://developers.google.com/blockly/xml" type="connectorSlot" id="-iJ-sL6.kR)?;Mpp(@2j" x="-543" y="128">
       <statement name="DO">
         <block type="execScript" id="#kQNJYlTDnyY..(9!!Nn">
@@ -444,7 +444,7 @@
       </statement>
     </block>
   </tab>
-  <tab name="A" type="CommonTab" active="false" scrollx="1114.5" scrolly="-10.25" scale="1">
+  <tab name="A" type="CommonTab" active="false" scrollx="1238.25" scrolly="793.5" scale="1">
     <variables xmlns="https://developers.google.com/blockly/xml">
       <variable id="^bXA_D1sXik#-XgZ#8/_">A7una</variable>
     </variables>
@@ -500,7 +500,7 @@
                           <value name="TEXT">
                             <shadow type="textMultiline" id="bu3Ae0Ip]PR$ecoh]}Y/">
                               <field name="HIGHLIGHT_MODE">javascript</field>
-                              <field name="TEXT" editor-height="2" editor-width="868.75">textocentro("Estaciones de Lavaojos y duchas de emergencia", { size: "large", duration: 2500 });</field>
+                              <field name="TEXT" editor-height="2" editor-width="520">textocentro("Estaciones de Lavaojos y duchas de emergencia", { size: "large", duration: 2500 });</field>
                             </shadow>
                           </value>
                         </block>
@@ -1418,7 +1418,7 @@
       </statement>
     </block>
   </tab>
-  <tab name="C" type="CommonTab" active="true" scrollx="784.5995330810547" scrolly="-244.25" scale="1">
+  <tab name="C" type="CommonTab" active="true" scrollx="605.8495330810547" scrolly="-104.25" scale="1">
     <block xmlns="https://developers.google.com/blockly/xml" type="procedures_defnoreturn" id="YicC2hzELb|OAp_mml._" x="-318" y="-130">
       <field name="NAME">continuarC</field>
       <comment pinned="false" h="80" w="160">Describe this function...</comment>
@@ -1520,7 +1520,7 @@
               </value>
               <value name="LOOKAT">
                 <block type="objectList" id="BhQ7E|)qXQ,L%aPV$C44">
-                  <field name="FIELDNAME">pCube205</field>
+                  <field name="FIELDNAME">pCube204</field>
                 </block>
               </value>
               <value name="DURATION">
