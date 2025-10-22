@@ -136,9 +136,10 @@ if (!window.botonesVCCreados) { // <-- CAMBIO
     // --- CAMBIO: Lista de botones para el Menú C ---
     // (Asegúrate de que 'vC1', 'vC2', etc. existan en tus puzzles)
     const botonesConfigVC = [ 
-        { texto: 'Zona C - Punto 1', proc: 'vC1' },
-        { texto: 'Zona C - Punto 2', proc: 'vC2' },
-        { texto: 'Zona C - Punto 3', proc: 'vC3' }
+        { texto: 'Punto 1', proc: 'vC1' },
+        { texto: 'Punto 2', proc: 'vC2' },
+        { texto: 'Punto 3', proc: 'vC3' },
+        { texto: 'Punto 3', proc: 'vC4' }
         // Agrega más botones aquí si es necesario
     ];
     
