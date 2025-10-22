@@ -1,0 +1,251 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <tab name="Init" type="InitTab" active="false" scrollx="1602.75" scrolly="0.25" scale="0.9"></tab>
+  <tab name="New Tab" type="CommonTab" active="true" scrollx="660.7985382080078" scrolly="-773.25" scale="1">
+    <block xmlns="https://developers.google.com/blockly/xml" type="connectorSlot" id="-iJ-sL6.kR)?;Mpp(@2j" x="-315" y="324">
+      <statement name="DO">
+        <block type="execScript" id="#kQNJYlTDnyY..(9!!Nn">
+          <value name="TEXT">
+            <shadow type="textMultiline" id="wf%u4x(BiO0H_{79BMS1">
+              <field name="HIGHLIGHT_MODE">javascript</field>
+              <field name="TEXT" editor-height="3" editor-width="475">window.app = app; &amp;#10;import("./imports.js");&amp;#10;</field>
+            </shadow>
+          </value>
+          <next>
+            <block type="procedures_callnoreturn" id="m!bWZ!.%biYm^adol?zF">
+              <mutation name="posGeneral"></mutation>
+            </block>
+          </next>
+        </block>
+      </statement>
+    </block>
+    <block xmlns="https://developers.google.com/blockly/xml" type="procedures_defnoreturn" id="4iT;w8]li-X^rtaqfc7C" x="-310" y="616">
+      <field name="NAME">posGeneral</field>
+      <comment pinned="false" h="80" w="160">Describe this function...</comment>
+      <statement name="STACK">
+        <block type="tweenCameraExt" id="e3NJ4|]+x2$Ixj23e6$L">
+          <mutation xmlns="http://www.w3.org/1999/xhtml" whenfinishedslot="false"></mutation>
+          <field name="MOVEMENT_TYPE">SPHERICAL</field>
+          <value name="POSITION">
+            <block type="objectList" id="XU))a5a_fo%n!mK4wLcj">
+              <field name="FIELDNAME">A</field>
+            </block>
+          </value>
+          <value name="LOOKAT">
+            <block type="objectList" id="dI+8}2gMu^_S=u;Zz!c4">
+              <field name="FIELDNAME">general</field>
+            </block>
+          </value>
+          <value name="DURATION">
+            <shadow type="math_number" id="1/=9eKt(|w6aviyd!Uom">
+              <field name="NUM">1</field>
+            </shadow>
+          </value>
+          <next>
+            <block type="setCameraParam" id="{);;4tjvG?0c_v73HVbQ">
+              <mutation xmlns="http://www.w3.org/1999/xhtml" type="KEYBOARD_CONTROLS"></mutation>
+              <field name="TYPE">KEYBOARD_CONTROLS</field>
+              <value name="KEYBOARD_CONTROLS">
+                <shadow type="logic_boolean" id="uG9)]i08#d_Yzj}k(dNw">
+                  <field name="BOOL">FALSE</field>
+                </shadow>
+              </value>
+              <value name="OBJECT">
+                <shadow type="objectList" id="}tqql|zj0N9);CN9:r!^">
+                  <field name="FIELDNAME">&lt;none&gt;</field>
+                </shadow>
+                <block type="objectList" id="jt:iz,q4NY?Xo$d4f}s8">
+                  <field name="FIELDNAME">Camera</field>
+                </block>
+              </value>
+              <next>
+                <block type="setCameraParam" id="hk/6,tM7.0m#?Iyeyl1G">
+                  <mutation xmlns="http://www.w3.org/1999/xhtml" type="ALLOW_PANNING"></mutation>
+                  <field name="TYPE">ALLOW_PANNING</field>
+                  <value name="ALLOW_PANNING">
+                    <shadow type="logic_boolean" id="Y3(ic-P#W-hSGWJ]}HSG">
+                      <field name="BOOL">FALSE</field>
+                    </shadow>
+                  </value>
+                  <value name="OBJECT">
+                    <shadow type="objectList" id="}tqql|zj0N9);CN9:r!^">
+                      <field name="FIELDNAME">&lt;none&gt;</field>
+                    </shadow>
+                    <block type="objectList" id="7C7h/Pk4Tv#$%3}QUd|-">
+                      <field name="FIELDNAME">Camera</field>
+                    </block>
+                  </value>
+                  <next>
+                    <block type="execScript" id="Z:*t[;Wi[SGuH;JDovK;">
+                      <value name="TEXT">
+                        <shadow type="textMultiline" id="??mrpgjjwliL6;sv8=EB">
+                          <field name="HIGHLIGHT_MODE">javascript</field>
+                          <field name="TEXT" editor-height="1" editor-width="520">app.controls.enableRotate = false;</field>
+                        </shadow>
+                      </value>
+                      <next>
+                        <block type="setTimeout" id="|4qQ+WgTtyCcsv@{[lFT">
+                          <value name="VALUE">
+                            <shadow type="math_number" id="_LJg04(yqF*yhxG{8_P@">
+                              <field name="NUM">0.2</field>
+                            </shadow>
+                          </value>
+                          <statement name="DO">
+                            <block type="autoRotateCamera" id="!O|E/nrS4!fqf#g$6_Ig">
+                              <field name="ON_OFF">ON</field>
+                              <value name="SPEED">
+                                <shadow type="math_number" id="}.x/7Lm#Bpg)E:l0sc#F">
+                                  <field name="NUM">1</field>
+                                </shadow>
+                              </value>
+                            </block>
+                          </statement>
+                          <next>
+                            <block type="setTimeout" id="-E)_MFtcR]Wjs`AlS5{+">
+                              <value name="VALUE">
+                                <shadow type="math_number" id="Q!mZ6`9i-WI0-cz,i3yw">
+                                  <field name="NUM">1</field>
+                                </shadow>
+                              </value>
+                              <statement name="DO">
+                                <block type="zoomCameraToObject" id="7+F:qhUIAqA2c-lf0f}/">
+                                  <mutation xmlns="http://www.w3.org/1999/xhtml" whenfinishedslot="false"></mutation>
+                                  <value name="OBJECT">
+                                    <shadow type="objectList" id="rZZE@EXIpK)0q[^*U:)H">
+                                      <field name="FIELDNAME">general</field>
+                                    </shadow>
+                                  </value>
+                                  <value name="DURATION">
+                                    <shadow type="math_number" id="6#8Gi%SS{0XA/C(A,PM)">
+                                      <field name="NUM">1</field>
+                                    </shadow>
+                                  </value>
+                                </block>
+                              </statement>
+                            </block>
+                          </next>
+                        </block>
+                      </next>
+                    </block>
+                  </next>
+                </block>
+              </next>
+            </block>
+          </next>
+        </block>
+      </statement>
+    </block>
+    <block xmlns="https://developers.google.com/blockly/xml" type="procedures_defnoreturn" id="S]5mhyN=oIxPxxv?.mZn" x="-312" y="1038">
+      <field name="NAME">zoneA</field>
+      <comment pinned="false" h="80" w="160">Describe this function...</comment>
+      <statement name="STACK">
+        <block type="autoRotateCamera" id="]9~-eHv5FT5:.Ki-E@u;">
+          <field name="ON_OFF">OFF</field>
+          <value name="SPEED">
+            <shadow type="math_number" id="04Ff!vERFX]#;E`sRsZD">
+              <field name="NUM">2</field>
+            </shadow>
+          </value>
+          <next>
+            <block type="lookAt" id="3A=PzHVCDsZ:|ijatRLX">
+              <value name="LOOKAT">
+                <shadow type="objectList" id="hHrKvU6m@BQK6G4hBCV(">
+                  <field name="FIELDNAME">ZoneA</field>
+                </shadow>
+              </value>
+              <value name="DURATION">
+                <shadow type="math_number" id="aqT|TcDSoIA__S.+:r:7">
+                  <field name="NUM">1</field>
+                </shadow>
+              </value>
+              <next>
+                <block type="addAnnotation" id="cFB:UP%E,!)!X#I=2u2J">
+                  <mutation xmlns="http://www.w3.org/1999/xhtml" usenameslot="false"></mutation>
+                  <value name="ANNOTATION">
+                    <shadow type="text" id="`XV_v@7;R.09Ll4C/cBE">
+                      <field name="TEXT">Planta Molibdeno</field>
+                    </shadow>
+                  </value>
+                  <value name="TARGET">
+                    <shadow type="objectList" id="*P`oeu}(%vcM!Dt(RX$1">
+                      <field name="FIELDNAME">ZoneA</field>
+                    </shadow>
+                  </value>
+                  <value name="CONTENTS">
+                    <shadow type="text" id="%Q+Itq-87~P9]JEEx_9W">
+                      <field name="TEXT"></field>
+                    </shadow>
+                  </value>
+                  <value name="ID">
+                    <shadow type="text" id="_P$q0oHl|{MJ+cyr:vw#">
+                      <field name="TEXT">zoneA</field>
+                    </shadow>
+                  </value>
+                  <next>
+                    <block type="setTimeout" id="b*4;K;AqT3q;K.NS,]Hq">
+                      <value name="VALUE">
+                        <shadow type="math_number" id="E}R=s$SHvIvQlGc=CW1-">
+                          <field name="NUM">2</field>
+                        </shadow>
+                      </value>
+                      <statement name="DO">
+                        <block type="tweenCameraExt" id="lE^MQn!j.~Ee`klX|s%a">
+                          <mutation xmlns="http://www.w3.org/1999/xhtml" whenfinishedslot="false"></mutation>
+                          <field name="MOVEMENT_TYPE">LINEAR</field>
+                          <value name="POSITION">
+                            <block type="objectList" id="mu)L~H8F}TJ=Wbc[sTP]">
+                              <field name="FIELDNAME">Entrada A</field>
+                            </block>
+                          </value>
+                          <value name="LOOKAT">
+                            <block type="objectList" id="hrg,Ozr66WL^]zg/-1I8">
+                              <field name="FIELDNAME">Box150964</field>
+                            </block>
+                          </value>
+                          <value name="DURATION">
+                            <shadow type="math_number" id="}yj@XM(teEA{!P.s3dV6">
+                              <field name="NUM">0.8</field>
+                            </shadow>
+                          </value>
+                          <next>
+                            <block type="execScript" id="gDF1hWcz{o2Vq1D=VTbC">
+                              <value name="TEXT">
+                                <shadow type="textMultiline" id="*kgi0Q5YIag4*BX.;7,j">
+                                  <field name="HIGHLIGHT_MODE">javascript</field>
+                                  <field name="TEXT" editor-height="1" editor-width="520">app.controls.enableRotate = true;</field>
+                                </shadow>
+                              </value>
+                              <next>
+                                <block type="setInterval" id="V.$+]{Zr}C`IxWh7uZz}">
+                                  <value name="VALUE">
+                                    <shadow type="math_number" id="c]Y7kx15/l:bg8.O1PTv">
+                                      <field name="NUM">1</field>
+                                    </shadow>
+                                  </value>
+                                  <statement name="DO">
+                                    <block type="execScript" id="kE$r9tN-hx0EN]z7q}m{">
+                                      <value name="TEXT">
+                                        <shadow type="textMultiline" id="-*sN$7[|/F~d%y%7!yg[">
+                                          <field name="HIGHLIGHT_MODE">javascript</field>
+                                          <field name="TEXT" editor-height="2" editor-width="520">// === FPSControlsManager mejorado: soporta pantalla completa y pointer lock ===&amp;#10;// Uso:&amp;#10;//  - window.FPSControlsManager.enable() / .disable() / .toggle()&amp;#10;//  - En caso de querer fullscreen+lock desde un clic del usuario: &amp;#10;//      window.FPSControlsManager.enterFullscreenAndLock()&amp;#10;//  - También puedes pasar opciones a enable({...})&amp;#10;&amp;#10;(function () {&amp;#10;    if (!window || !app) {&amp;#10;        console.warn("FPSControlsManager: 'app' no está disponible.");&amp;#10;        return;&amp;#10;    }&amp;#10;    if (window.FPSControlsManager) return;&amp;#10;&amp;#10;    // Helper cross-browser fullscreen element getter&amp;#10;    function getFullscreenElement() {&amp;#10;        return document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement || null;&amp;#10;    }&amp;#10;&amp;#10;    // Determine container to use for pointer lock / controls&amp;#10;    var defaultContainer = app.container || (app.renderer &amp;&amp; app.renderer.domElement) || document.body;&amp;#10;&amp;#10;    var manager = {&amp;#10;        enabled: false,&amp;#10;        _savedControls: null,&amp;#10;        _savedControlsEnabled: null,&amp;#10;        _fpsControls: null,&amp;#10;        _pointerLockElement: defaultContainer,&amp;#10;        _fullscreenHandler: null,&amp;#10;        _pointerLockHandler: null,&amp;#10;        _clickRequestHandler: null,&amp;#10;        params: {&amp;#10;            lookSpeed: 0.15,&amp;#10;            movementSpeed: 50,&amp;#10;            noFly: false,&amp;#10;            lookVertical: true,&amp;#10;            activeLook: true,&amp;#10;            constrainVertical: true,&amp;#10;            verticalMin: 1.0,&amp;#10;            verticalMax: 2.0&amp;#10;        },&amp;#10;&amp;#10;        // Actualiza el elemento objetivo para pointer lock (usa fullscreen si existe)&amp;#10;        _updatePointerLockElement: function () {&amp;#10;            var fsEl = getFullscreenElement();&amp;#10;            this._pointerLockElement = fsEl || defaultContainer;&amp;#10;        },&amp;#10;&amp;#10;        enable: function (opts) {&amp;#10;            if (this.enabled) return;&amp;#10;            opts = opts || {};&amp;#10;            Object.assign(this.params, opts);&amp;#10;&amp;#10;            // Guardar controles actuales&amp;#10;            this._savedControls = app.controls || null;&amp;#10;            this._savedControlsEnabled = this._savedControls ? this._savedControls.enabled : null;&amp;#10;            if (this._savedControls) {&amp;#10;                try { this._savedControls.enabled = false; } catch (e) {}&amp;#10;            }&amp;#10;&amp;#10;            // Verificar que FirstPersonControls exista&amp;#10;            if (!v3d || !v3d.FirstPersonControls) {&amp;#10;                console.error("FPSControlsManager: v3d.FirstPersonControls no disponible.");&amp;#10;                if (this._savedControls) this._savedControls.enabled = this._savedControlsEnabled;&amp;#10;                return;&amp;#10;            }&amp;#10;&amp;#10;            // actualizar elemento para pointer lock (por si ya estamos en fullscreen)&amp;#10;            this._updatePointerLockElement();&amp;#10;&amp;#10;            // Crear controles FPS usando el elemento apropiado&amp;#10;            var containerForControls = this._pointerLockElement || defaultContainer;&amp;#10;            this._fpsControls = new v3d.FirstPersonControls(app.camera, containerForControls);&amp;#10;&amp;#10;            // Aplicar parámetros&amp;#10;            this._fpsControls.lookSpeed = this.params.lookSpeed;&amp;#10;            this._fpsControls.movementSpeed = this.params.movementSpeed;&amp;#10;            this._fpsControls.noFly = !!this.params.noFly;&amp;#10;            this._fpsControls.lookVertical = !!this.params.lookVertical;&amp;#10;            this._fpsControls.activeLook = !!this.params.activeLook;&amp;#10;            this._fpsControls.constrainVertical = !!this.params.constrainVertical;&amp;#10;            if (this._fpsControls.constrainVertical) {&amp;#10;                this._fpsControls.verticalMin = this.params.verticalMin;&amp;#10;                this._fpsControls.verticalMax = this.params.verticalMax;&amp;#10;            }&amp;#10;&amp;#10;            // Poner como controles activos&amp;#10;            app.controls = this._fpsControls;&amp;#10;            try { this._fpsControls.enabled = true; } catch (e) {}&amp;#10;&amp;#10;            var self = this;&amp;#10;&amp;#10;            // Handler pointerlockchange: actualizar activeLook según lock&amp;#10;            this._pointerLockHandler = function () {&amp;#10;                var locked = document.pointerLockElement === (self._pointerLockElement || defaultContainer);&amp;#10;                try {&amp;#10;                    if (self._fpsControls) self._fpsControls.activeLook = !!locked;&amp;#10;                } catch (e) {}&amp;#10;            };&amp;#10;            document.addEventListener('pointerlockchange', this._pointerLockHandler);&amp;#10;&amp;#10;            // Handler fullscreenchange: actualizar elemento para pointer lock y, si ya hay controls creados, reasignarlos&amp;#10;            this._fullscreenHandler = function () {&amp;#10;                self._updatePointerLockElement();&amp;#10;&amp;#10;                // Si ya existen controles FPS, reasignar su domElement si la implementación lo soporta.&amp;#10;                // FirstPersonControls constructor acepta un elemento, pero no tiene método oficial para cambiarlo; &amp;#10;                // la forma más segura es recrear los controles si cambiamos de elemento.&amp;#10;                if (self._fpsControls) {&amp;#10;                    try {&amp;#10;                        // Desactivar y descartar controles previos&amp;#10;                        self._fpsControls.enabled = false;&amp;#10;                        if (typeof self._fpsControls.dispose === 'function') {&amp;#10;                            try { self._fpsControls.dispose(); } catch (e) {}&amp;#10;                        }&amp;#10;                    } catch (e) {}&amp;#10;                    // Recrear controles sobre el nuevo elemento fullscreen/defaultContainer&amp;#10;                    var newContainer = self._pointerLockElement || defaultContainer;&amp;#10;                    self._fpsControls = new v3d.FirstPersonControls(app.camera, newContainer);&amp;#10;                    // reaplicar parámetros&amp;#10;                    self._fpsControls.lookSpeed = self.params.lookSpeed;&amp;#10;                    self._fpsControls.movementSpeed = self.params.movementSpeed;&amp;#10;                    self._fpsControls.noFly = !!self.params.noFly;&amp;#10;                    self._fpsControls.lookVertical = !!self.params.lookVertical;&amp;#10;                    self._fpsControls.activeLook = !!self.params.activeLook;&amp;#10;                    self._fpsControls.constrainVertical = !!self.params.constrainVertical;&amp;#10;                    if (self._fpsControls.constrainVertical) {&amp;#10;                        self._fpsControls.verticalMin = self.params.verticalMin;&amp;#10;                        self._fpsControls.verticalMax = self.params.verticalMax;&amp;#10;                    }&amp;#10;                    app.controls = self._fpsControls;&amp;#10;                    try { self._fpsControls.enabled = true; } catch (e) {}&amp;#10;                }&amp;#10;            };&amp;#10;            document.addEventListener('fullscreenchange', this._fullscreenHandler);&amp;#10;            document.addEventListener('webkitfullscreenchange', this._fullscreenHandler);&amp;#10;            document.addEventListener('mozfullscreenchange', this._fullscreenHandler);&amp;#10;            document.addEventListener('MSFullscreenChange', this._fullscreenHandler);&amp;#10;&amp;#10;            // Click handler para solicitar pointer lock sobre el elemento actual (útil si el usuario hace click)&amp;#10;            this._clickRequestHandler = function requestLockOnClick() {&amp;#10;                try {&amp;#10;                    var el = self._pointerLockElement || defaultContainer;&amp;#10;                    if (el &amp;&amp; el.requestPointerLock) {&amp;#10;                        el.requestPointerLock();&amp;#10;                    }&amp;#10;                } catch (err) {}&amp;#10;            };&amp;#10;            // Añadir listener en el container por si el usuario hace click allí&amp;#10;            (defaultContainer || document.body).addEventListener('click', this._clickRequestHandler);&amp;#10;&amp;#10;            this.enabled = true;&amp;#10;            console.log("FPSControlsManager: habilitado (soporta fullscreen).");&amp;#10;        },&amp;#10;&amp;#10;        disable: function () {&amp;#10;            if (!this.enabled) return;&amp;#10;            // Desactivar controles FPS&amp;#10;            try {&amp;#10;                if (this._fpsControls) {&amp;#10;                    this._fpsControls.enabled = false;&amp;#10;                    if (typeof this._fpsControls.dispose === 'function') {&amp;#10;                        try { this._fpsControls.dispose(); } catch (e) {}&amp;#10;                    }&amp;#10;                }&amp;#10;            } catch (e) {}&amp;#10;&amp;#10;            // Restaurar controles originales&amp;#10;            if (this._savedControls) {&amp;#10;                try {&amp;#10;                    app.controls = this._savedControls;&amp;#10;                    if (typeof this._savedControls.enabled !== 'undefined') this._savedControls.enabled = this._savedControlsEnabled;&amp;#10;                } catch (e) {&amp;#10;                    console.warn("FPSControlsManager: error restaurando controles originales", e);&amp;#10;                    app.controls = this._savedControls;&amp;#10;                }&amp;#10;            } else {&amp;#10;                try { app.controls = null; } catch (e) {}&amp;#10;            }&amp;#10;&amp;#10;            // Exit pointer lock if present&amp;#10;            try { if (document.exitPointerLock) document.exitPointerLock(); } catch (e) {}&amp;#10;&amp;#10;            // Remove listeners&amp;#10;            if (this._pointerLockHandler) {&amp;#10;                document.removeEventListener('pointerlockchange', this._pointerLockHandler);&amp;#10;                this._pointerLockHandler = null;&amp;#10;            }&amp;#10;            if (this._fullscreenHandler) {&amp;#10;                document.removeEventListener('fullscreenchange', this._fullscreenHandler);&amp;#10;                document.removeEventListener('webkitfullscreenchange', this._fullscreenHandler);&amp;#10;                document.removeEventListener('mozfullscreenchange', this._fullscreenHandler);&amp;#10;                document.removeEventListener('MSFullscreenChange', this._fullscreenHandler);&amp;#10;                this._fullscreenHandler = null;&amp;#10;            }&amp;#10;            if (this._clickRequestHandler) {&amp;#10;                (defaultContainer || document.body).removeEventListener('click', this._clickRequestHandler);&amp;#10;                this._clickRequestHandler = null;&amp;#10;            }&amp;#10;&amp;#10;            // Clean references&amp;#10;            this._fpsControls = null;&amp;#10;            this._savedControls = null;&amp;#10;            this._savedControlsEnabled = null;&amp;#10;            this.enabled = false;&amp;#10;            console.log("FPSControlsManager: deshabilitado y controles originales restaurados.");&amp;#10;        },&amp;#10;&amp;#10;        toggle: function (opts) {&amp;#10;            if (this.enabled) this.disable();&amp;#10;            else this.enable(opts);&amp;#10;        },&amp;#10;&amp;#10;        // Llamar desde un gesto de usuario (click) para pedir fullscreen y pointer lock en el mismo gesto.&amp;#10;        // Intentará primero requestFullscreen() sobre el container y luego requestPointerLock() sobre el elemento fullscreen (o container).&amp;#10;        enterFullscreenAndLock: function () {&amp;#10;            var el = defaultContainer;&amp;#10;            var self = this;&amp;#10;            var requestFS = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;&amp;#10;            if (!requestFS) {&amp;#10;                // si no hay requestFullscreen, simplemente intentar pointer lock en el elemento actual&amp;#10;                try {&amp;#10;                    var plEl = this._pointerLockElement || defaultContainer;&amp;#10;                    if (plEl &amp;&amp; plEl.requestPointerLock) plEl.requestPointerLock();&amp;#10;                } catch (e) {}&amp;#10;                return;&amp;#10;            }&amp;#10;&amp;#10;            // Intentar entrar en fullscreen y solicitar pointer lock (si el navegador lo permite en el mismo gesto)&amp;#10;            try {&amp;#10;                var p = requestFS.call(el);&amp;#10;                // Algunos navegadores permiten pedir pointer lock inmediatamente después si aún es el mismo gesto.&amp;#10;                try {&amp;#10;                    var plEl = el;&amp;#10;                    if (plEl &amp;&amp; plEl.requestPointerLock) plEl.requestPointerLock();&amp;#10;                } catch (err) {}&amp;#10;                // Si la promesa se resuelve y existe elemento fullscreen, intentar lock allí también&amp;#10;                if (p &amp;&amp; typeof p.then === 'function') {&amp;#10;                    p.then(function () {&amp;#10;                        try {&amp;#10;                            var fsEl = getFullscreenElement() || el;&amp;#10;                            if (fsEl &amp;&amp; fsEl.requestPointerLock) fsEl.requestPointerLock();&amp;#10;                        } catch (e) {}&amp;#10;                    }).catch(function(){ /* ignore */ });&amp;#10;                }&amp;#10;            } catch (e) {&amp;#10;                // Fallo en requestFullscreen, intentar al menos pointer lock en el elemento actual&amp;#10;                try {&amp;#10;                    var plEl2 = this._pointerLockElement || defaultContainer;&amp;#10;                    if (plEl2 &amp;&amp; plEl2.requestPointerLock) plEl2.requestPointerLock();&amp;#10;                } catch (er) {}&amp;#10;            }&amp;#10;        }&amp;#10;    };&amp;#10;&amp;#10;    window.FPSControlsManager = manager;&amp;#10;&amp;#10;    // Opcional: atajo 'F' para alternar (si quieres lo mantienes)&amp;#10;    function onKeyToggle(e) {&amp;#10;        var tag = document.activeElement &amp;&amp; document.activeElement.tagName;&amp;#10;        if (tag === 'INPUT' || tag === 'TEXTAREA' || (document.activeElement &amp;&amp; document.activeElement.isContentEditable)) return;&amp;#10;        if (e.code === 'KeyF') {&amp;#10;            manager.toggle();&amp;#10;        }&amp;#10;    }&amp;#10;    window.addEventListener('keydown', onKeyToggle);&amp;#10;&amp;#10;    console.log("FPSControlsManager listo (mejor soporte fullscreen). Usa window.FPSControlsManager.enable()/disable()/enterFullscreenAndLock().");&amp;#10;})();&amp;#10;</field>
+                                        </shadow>
+                                      </value>
+                                    </block>
+                                  </statement>
+                                </block>
+                              </next>
+                            </block>
+                          </next>
+                        </block>
+                      </statement>
+                    </block>
+                  </next>
+                </block>
+              </next>
+            </block>
+          </next>
+        </block>
+      </statement>
+    </block>
+  </tab>
+  <editorsettings viewport-x="1180.1999999999998" viewport-y="37" viewport-w="798.8" viewport-h="448.5" viewport-hidden="true" toolbox-library-mode="false" toolbox-minimized-mode="false"></editorsettings>
+</xml>

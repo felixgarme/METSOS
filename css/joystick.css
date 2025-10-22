@@ -1,0 +1,48 @@
+/* joystick-styles.css */
+
+/* Contenedor del joystick */
+.v3d-joystick {
+  position: fixed;        /* posición base; left/bottom se ponen desde JS dinámicamente */
+  border-radius: 50%;
+  background: rgba(0,0,0,0.25);
+  z-index: 9999;
+  touch-action: none;
+  display: block;
+  box-sizing: border-box;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  /* opcional: ligero borde para definición */
+  border: 1px solid rgba(255,255,255,0.02);
+}
+
+/* La 'perilla' del joystick */
+.v3d-joystick-knob {
+  position: absolute;     /* top/left se actualizan por JS */
+  border-radius: 50%;
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  touch-action: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  transition: left 0.04s linear, top 0.04s linear; /* hace el movimiento un poco más suave */
+}
+
+/* Tamaños por defecto (se pueden sobrescribir por JS) */
+.v3d-joystick {
+  width: 160px;   /* valor por defecto si JS no cambia */
+  height: 160px;
+}
+
+.v3d-joystick-knob {
+  width: 56px;
+  height: 56px;
+}
+
+/* Pequeños ajustes responsive */
+@media (max-width: 480px) {
+  .v3d-joystick {
+    opacity: 0.95;
+  }
+}

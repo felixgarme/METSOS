@@ -1,0 +1,251 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <tab name="Init" type="InitTab" active="false" scrollx="1602.75" scrolly="0.25" scale="0.9"></tab>
+  <tab name="New Tab" type="CommonTab" active="true" scrollx="660.7985382080078" scrolly="-773.25" scale="1">
+    <block xmlns="https://developers.google.com/blockly/xml" type="connectorSlot" id="-iJ-sL6.kR)?;Mpp(@2j" x="-315" y="324">
+      <statement name="DO">
+        <block type="execScript" id="#kQNJYlTDnyY..(9!!Nn">
+          <value name="TEXT">
+            <shadow type="textMultiline" id="wf%u4x(BiO0H_{79BMS1">
+              <field name="HIGHLIGHT_MODE">javascript</field>
+              <field name="TEXT" editor-height="3" editor-width="475">window.app = app; &amp;#10;import("./imports.js");&amp;#10;</field>
+            </shadow>
+          </value>
+          <next>
+            <block type="procedures_callnoreturn" id="m!bWZ!.%biYm^adol?zF">
+              <mutation name="posGeneral"></mutation>
+            </block>
+          </next>
+        </block>
+      </statement>
+    </block>
+    <block xmlns="https://developers.google.com/blockly/xml" type="procedures_defnoreturn" id="4iT;w8]li-X^rtaqfc7C" x="-310" y="616">
+      <field name="NAME">posGeneral</field>
+      <comment pinned="false" h="80" w="160">Describe this function...</comment>
+      <statement name="STACK">
+        <block type="tweenCameraExt" id="e3NJ4|]+x2$Ixj23e6$L">
+          <mutation xmlns="http://www.w3.org/1999/xhtml" whenfinishedslot="false"></mutation>
+          <field name="MOVEMENT_TYPE">SPHERICAL</field>
+          <value name="POSITION">
+            <block type="objectList" id="XU))a5a_fo%n!mK4wLcj">
+              <field name="FIELDNAME">A</field>
+            </block>
+          </value>
+          <value name="LOOKAT">
+            <block type="objectList" id="dI+8}2gMu^_S=u;Zz!c4">
+              <field name="FIELDNAME">general</field>
+            </block>
+          </value>
+          <value name="DURATION">
+            <shadow type="math_number" id="1/=9eKt(|w6aviyd!Uom">
+              <field name="NUM">1</field>
+            </shadow>
+          </value>
+          <next>
+            <block type="setCameraParam" id="{);;4tjvG?0c_v73HVbQ">
+              <mutation xmlns="http://www.w3.org/1999/xhtml" type="KEYBOARD_CONTROLS"></mutation>
+              <field name="TYPE">KEYBOARD_CONTROLS</field>
+              <value name="KEYBOARD_CONTROLS">
+                <shadow type="logic_boolean" id="uG9)]i08#d_Yzj}k(dNw">
+                  <field name="BOOL">FALSE</field>
+                </shadow>
+              </value>
+              <value name="OBJECT">
+                <shadow type="objectList" id="}tqql|zj0N9);CN9:r!^">
+                  <field name="FIELDNAME">&lt;none&gt;</field>
+                </shadow>
+                <block type="objectList" id="jt:iz,q4NY?Xo$d4f}s8">
+                  <field name="FIELDNAME">Camera</field>
+                </block>
+              </value>
+              <next>
+                <block type="setCameraParam" id="hk/6,tM7.0m#?Iyeyl1G">
+                  <mutation xmlns="http://www.w3.org/1999/xhtml" type="ALLOW_PANNING"></mutation>
+                  <field name="TYPE">ALLOW_PANNING</field>
+                  <value name="ALLOW_PANNING">
+                    <shadow type="logic_boolean" id="Y3(ic-P#W-hSGWJ]}HSG">
+                      <field name="BOOL">FALSE</field>
+                    </shadow>
+                  </value>
+                  <value name="OBJECT">
+                    <shadow type="objectList" id="}tqql|zj0N9);CN9:r!^">
+                      <field name="FIELDNAME">&lt;none&gt;</field>
+                    </shadow>
+                    <block type="objectList" id="7C7h/Pk4Tv#$%3}QUd|-">
+                      <field name="FIELDNAME">Camera</field>
+                    </block>
+                  </value>
+                  <next>
+                    <block type="execScript" id="Z:*t[;Wi[SGuH;JDovK;">
+                      <value name="TEXT">
+                        <shadow type="textMultiline" id="??mrpgjjwliL6;sv8=EB">
+                          <field name="HIGHLIGHT_MODE">javascript</field>
+                          <field name="TEXT" editor-height="1" editor-width="520">app.controls.enableRotate = false;</field>
+                        </shadow>
+                      </value>
+                      <next>
+                        <block type="setTimeout" id="|4qQ+WgTtyCcsv@{[lFT">
+                          <value name="VALUE">
+                            <shadow type="math_number" id="_LJg04(yqF*yhxG{8_P@">
+                              <field name="NUM">0.2</field>
+                            </shadow>
+                          </value>
+                          <statement name="DO">
+                            <block type="autoRotateCamera" id="!O|E/nrS4!fqf#g$6_Ig">
+                              <field name="ON_OFF">ON</field>
+                              <value name="SPEED">
+                                <shadow type="math_number" id="}.x/7Lm#Bpg)E:l0sc#F">
+                                  <field name="NUM">1</field>
+                                </shadow>
+                              </value>
+                            </block>
+                          </statement>
+                          <next>
+                            <block type="setTimeout" id="-E)_MFtcR]Wjs`AlS5{+">
+                              <value name="VALUE">
+                                <shadow type="math_number" id="Q!mZ6`9i-WI0-cz,i3yw">
+                                  <field name="NUM">1</field>
+                                </shadow>
+                              </value>
+                              <statement name="DO">
+                                <block type="zoomCameraToObject" id="7+F:qhUIAqA2c-lf0f}/">
+                                  <mutation xmlns="http://www.w3.org/1999/xhtml" whenfinishedslot="false"></mutation>
+                                  <value name="OBJECT">
+                                    <shadow type="objectList" id="rZZE@EXIpK)0q[^*U:)H">
+                                      <field name="FIELDNAME">general</field>
+                                    </shadow>
+                                  </value>
+                                  <value name="DURATION">
+                                    <shadow type="math_number" id="6#8Gi%SS{0XA/C(A,PM)">
+                                      <field name="NUM">1</field>
+                                    </shadow>
+                                  </value>
+                                </block>
+                              </statement>
+                            </block>
+                          </next>
+                        </block>
+                      </next>
+                    </block>
+                  </next>
+                </block>
+              </next>
+            </block>
+          </next>
+        </block>
+      </statement>
+    </block>
+    <block xmlns="https://developers.google.com/blockly/xml" type="procedures_defnoreturn" id="S]5mhyN=oIxPxxv?.mZn" x="-312" y="1038">
+      <field name="NAME">zoneA</field>
+      <comment pinned="false" h="80" w="160">Describe this function...</comment>
+      <statement name="STACK">
+        <block type="autoRotateCamera" id="]9~-eHv5FT5:.Ki-E@u;">
+          <field name="ON_OFF">OFF</field>
+          <value name="SPEED">
+            <shadow type="math_number" id="04Ff!vERFX]#;E`sRsZD">
+              <field name="NUM">2</field>
+            </shadow>
+          </value>
+          <next>
+            <block type="lookAt" id="3A=PzHVCDsZ:|ijatRLX">
+              <value name="LOOKAT">
+                <shadow type="objectList" id="hHrKvU6m@BQK6G4hBCV(">
+                  <field name="FIELDNAME">ZoneA</field>
+                </shadow>
+              </value>
+              <value name="DURATION">
+                <shadow type="math_number" id="aqT|TcDSoIA__S.+:r:7">
+                  <field name="NUM">1</field>
+                </shadow>
+              </value>
+              <next>
+                <block type="addAnnotation" id="cFB:UP%E,!)!X#I=2u2J">
+                  <mutation xmlns="http://www.w3.org/1999/xhtml" usenameslot="false"></mutation>
+                  <value name="ANNOTATION">
+                    <shadow type="text" id="`XV_v@7;R.09Ll4C/cBE">
+                      <field name="TEXT">Planta Molibdeno</field>
+                    </shadow>
+                  </value>
+                  <value name="TARGET">
+                    <shadow type="objectList" id="*P`oeu}(%vcM!Dt(RX$1">
+                      <field name="FIELDNAME">ZoneA</field>
+                    </shadow>
+                  </value>
+                  <value name="CONTENTS">
+                    <shadow type="text" id="%Q+Itq-87~P9]JEEx_9W">
+                      <field name="TEXT"></field>
+                    </shadow>
+                  </value>
+                  <value name="ID">
+                    <shadow type="text" id="_P$q0oHl|{MJ+cyr:vw#">
+                      <field name="TEXT">zoneA</field>
+                    </shadow>
+                  </value>
+                  <next>
+                    <block type="setTimeout" id="b*4;K;AqT3q;K.NS,]Hq">
+                      <value name="VALUE">
+                        <shadow type="math_number" id="E}R=s$SHvIvQlGc=CW1-">
+                          <field name="NUM">2</field>
+                        </shadow>
+                      </value>
+                      <statement name="DO">
+                        <block type="tweenCameraExt" id="lE^MQn!j.~Ee`klX|s%a">
+                          <mutation xmlns="http://www.w3.org/1999/xhtml" whenfinishedslot="false"></mutation>
+                          <field name="MOVEMENT_TYPE">LINEAR</field>
+                          <value name="POSITION">
+                            <block type="objectList" id="mu)L~H8F}TJ=Wbc[sTP]">
+                              <field name="FIELDNAME">Entrada A</field>
+                            </block>
+                          </value>
+                          <value name="LOOKAT">
+                            <block type="objectList" id="hrg,Ozr66WL^]zg/-1I8">
+                              <field name="FIELDNAME">Box150964</field>
+                            </block>
+                          </value>
+                          <value name="DURATION">
+                            <shadow type="math_number" id="}yj@XM(teEA{!P.s3dV6">
+                              <field name="NUM">0.8</field>
+                            </shadow>
+                          </value>
+                          <next>
+                            <block type="setInterval" id="V.$+]{Zr}C`IxWh7uZz}">
+                              <value name="VALUE">
+                                <shadow type="math_number" id="c]Y7kx15/l:bg8.O1PTv">
+                                  <field name="NUM">1</field>
+                                </shadow>
+                              </value>
+                              <statement name="DO">
+                                <block type="execScript" id="gDF1hWcz{o2Vq1D=VTbC">
+                                  <value name="TEXT">
+                                    <shadow type="textMultiline" id="*kgi0Q5YIag4*BX.;7,j">
+                                      <field name="HIGHLIGHT_MODE">javascript</field>
+                                      <field name="TEXT" editor-height="1" editor-width="520">app.controls.enableRotate = true;</field>
+                                    </shadow>
+                                  </value>
+                                  <next>
+                                    <block type="execScript" id="kE$r9tN-hx0EN]z7q}m{">
+                                      <value name="TEXT">
+                                        <shadow type="textMultiline" id="-*sN$7[|/F~d%y%7!yg[">
+                                          <field name="HIGHLIGHT_MODE">javascript</field>
+                                          <field name="TEXT" editor-height="1" editor-width="520">// === Controles tipo videojuego: movimiento sigue al mouse (WASD + mouse look) ===&amp;#10;&amp;#10;// Parámetros ajustables&amp;#10;var movementSpeed = 50.0;        // unidades por segundo&amp;#10;var mouseSensitivity = 0.0025;   // sensibilidad del mouse&amp;#10;var smoothFactor = 0.14;         // suavizado de rotación (0 = inmediato, 1 = muy suave)&amp;#10;var minPitch = -Math.PI/2 + 0.1; // límite vertical&amp;#10;var maxPitch =  Math.PI/2 - 0.1;&amp;#10;&amp;#10;// referencias Verge3D&amp;#10;if (!app || !app.camera) {&amp;#10;    console.warn("No se encontró 'app' o 'app.camera'. Asegúrate de ejecutar esto dentro de Verge3D.");&amp;#10;} else {&amp;#10;    // Desactivar controles previos si existían&amp;#10;    if (app.controls) app.controls.enabled = false;&amp;#10;&amp;#10;    var camera = app.camera;&amp;#10;    var container = app.container || document.body;&amp;#10;&amp;#10;    // Estado de control&amp;#10;    var yaw = 0;      // rotación alrededor de Y (izq/der)&amp;#10;    var pitch = 0;    // rotación alrededor de X (arriba/abajo)&amp;#10;    var targetYaw = 0;&amp;#10;    var targetPitch = 0;&amp;#10;&amp;#10;    // Inicializar yaw/pitch desde la cámara actual&amp;#10;    (function initFromCamera(){&amp;#10;        var e = new v3d.Euler().setFromQuaternion(camera.quaternion, 'YXZ');&amp;#10;        pitch = targetPitch = e.x;&amp;#10;        yaw   = targetYaw   = e.y;&amp;#10;    })();&amp;#10;&amp;#10;    var keys = { w:false, a:false, s:false, d:false };&amp;#10;    var pointerLocked = false;&amp;#10;&amp;#10;    // Solicitar pointer lock al hacer clic en el contenedor (comportamiento típico FPS)&amp;#10;    container.style.cursor = "pointer";&amp;#10;    container.addEventListener("click", function () {&amp;#10;        if (container.requestPointerLock) container.requestPointerLock();&amp;#10;    });&amp;#10;&amp;#10;    // Detectar cambio de pointer lock&amp;#10;    document.addEventListener("pointerlockchange", function () {&amp;#10;        pointerLocked = (document.pointerLockElement === container);&amp;#10;    });&amp;#10;&amp;#10;    // Movimiento del mouse -&gt; actualizar targetYaw/targetPitch&amp;#10;    document.addEventListener("mousemove", function (evt) {&amp;#10;        // Si pointer locked, usamos movementX/Y (más preciso)&amp;#10;        var mx = pointerLocked ? evt.movementX : (evt.movementX || evt.mozMovementX || 0);&amp;#10;        var my = pointerLocked ? evt.movementY : (evt.movementY || evt.mozMovementY || 0);&amp;#10;&amp;#10;        // Si no hay movimiento (por ejemplo en algunos navegadores sin movimientoX), ignoramos&amp;#10;        if (!mx &amp;&amp; !my &amp;&amp; !pointerLocked) {&amp;#10;            // alternativa: calcular en base a posición del cursor respecto al centro (opcional) — omito para simplicidad&amp;#10;            return;&amp;#10;        }&amp;#10;&amp;#10;        targetYaw  -= mx * mouseSensitivity;&amp;#10;        targetPitch -= my * mouseSensitivity;&amp;#10;        // limitar pitch&amp;#10;        targetPitch = Math.max(minPitch, Math.min(maxPitch, targetPitch));&amp;#10;    });&amp;#10;&amp;#10;    // Teclado para movimiento&amp;#10;    window.addEventListener("keydown", function(e){&amp;#10;        switch(e.code){&amp;#10;            case "KeyW": keys.w = true; break;&amp;#10;            case "KeyS": keys.s = true; break;&amp;#10;            case "KeyA": keys.a = true; break;&amp;#10;            case "KeyD": keys.d = true; break;&amp;#10;        }&amp;#10;    });&amp;#10;    window.addEventListener("keyup", function(e){&amp;#10;        switch(e.code){&amp;#10;            case "KeyW": keys.w = false; break;&amp;#10;            case "KeyS": keys.s = false; break;&amp;#10;            case "KeyA": keys.a = false; break;&amp;#10;            case "KeyD": keys.d = false; break;&amp;#10;        }&amp;#10;    });&amp;#10;&amp;#10;    // Variables auxiliares v3d (reusar objetos para evitar asignaciones constantes)&amp;#10;    var forwardVec = new v3d.Vector3();&amp;#10;    var rightVec = new v3d.Vector3();&amp;#10;    var moveVec = new v3d.Vector3();&amp;#10;    var tmpQuat = new v3d.Quaternion();&amp;#10;    var tmpEuler = new v3d.Euler(0,0,0,'YXZ');&amp;#10;&amp;#10;    // Bucle de actualización (usamos requestAnimationFrame para actualizar cada frame)&amp;#10;    var prevTime = performance.now();&amp;#10;    function loop(now) {&amp;#10;        var dt = (now - prevTime) / 1000; // segundos&amp;#10;        prevTime = now;&amp;#10;&amp;#10;        // Suavizado de rotación (interpolación hacia target)&amp;#10;        yaw   += (targetYaw - yaw) * Math.min(1, smoothFactor * (dt * 60));&amp;#10;        pitch += (targetPitch - pitch) * Math.min(1, smoothFactor * (dt * 60));&amp;#10;&amp;#10;        // Aplicar rotación a la cámara (usando quaternion para evitar problemas de orden)&amp;#10;        tmpEuler.x = pitch;&amp;#10;        tmpEuler.y = yaw;&amp;#10;        tmpEuler.z = 0;&amp;#10;        tmpQuat.setFromEuler(tmpEuler);&amp;#10;        camera.quaternion.copy(tmpQuat);&amp;#10;&amp;#10;        // Movimiento relativo a la orientación de la cámara (en plano XZ)&amp;#10;        var forwardInput = (keys.w ? 1 : 0) - (keys.s ? 1 : 0);&amp;#10;        var rightInput   = (keys.d ? 1 : 0) - (keys.a ? 1 : 0);&amp;#10;&amp;#10;        if (forwardInput !== 0 || rightInput !== 0) {&amp;#10;            // forward vector (horizontally) — para angle 0 =&gt; (0,0,-1)&amp;#10;            forwardVec.set(Math.sin(yaw), 0, -Math.cos(yaw));&amp;#10;            // right vector&amp;#10;            rightVec.set(Math.cos(yaw), 0, Math.sin(yaw));&amp;#10;&amp;#10;            moveVec.set(0,0,0);&amp;#10;            moveVec.addScaledVector(forwardVec, forwardInput);&amp;#10;            moveVec.addScaledVector(rightVec, rightInput);&amp;#10;&amp;#10;            // normalizar para diagonal no sea más rápida&amp;#10;            if (moveVec.lengthSq() &gt; 0.0001) moveVec.normalize();&amp;#10;&amp;#10;            // aplicar velocidad y delta&amp;#10;            moveVec.multiplyScalar(movementSpeed * dt);&amp;#10;&amp;#10;            // mover la cámara&amp;#10;            camera.position.add(moveVec);&amp;#10;        }&amp;#10;&amp;#10;        // continuar loop&amp;#10;        requestAnimationFrame(loop);&amp;#10;    }&amp;#10;&amp;#10;    // Iniciar loop&amp;#10;    requestAnimationFrame(loop);&amp;#10;&amp;#10;    // Mensaje informativo&amp;#10;    console.log("Controles activados: WASD para moverse. Haz clic en la vista para bloquear el cursor y mirar con el mouse.");&amp;#10;}&amp;#10;</field>
+                                        </shadow>
+                                      </value>
+                                    </block>
+                                  </next>
+                                </block>
+                              </statement>
+                            </block>
+                          </next>
+                        </block>
+                      </statement>
+                    </block>
+                  </next>
+                </block>
+              </next>
+            </block>
+          </next>
+        </block>
+      </statement>
+    </block>
+  </tab>
+  <editorsettings viewport-x="1180.1999999999998" viewport-y="37" viewport-w="798.8" viewport-h="448.5" viewport-hidden="true" toolbox-library-mode="false" toolbox-minimized-mode="false"></editorsettings>
+</xml>

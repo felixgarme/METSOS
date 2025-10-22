@@ -1,72 +1,194 @@
-// FPS camera movement (movimiento en XZ) + joystick móvil (solo mobile) + gravedad
-var app=v3d.apps[0],camera=app.camera,controls=app.controls;if(controls&&controls.enabled!==undefined)controls.enabled=false;
-// ajustes
-var moveSpeed=5.0,turnSpeed=0.002,touchTurnSpeed=0.005,joystickRadius=80,joystickAreaWidthPct=0.38;
-var keys={},yaw=0,pitch=0,isPointerLocked=false;
-// vectores
-var forwardBase=new v3d.Vector3(0,0,-1),rightBase=new v3d.Vector3(1,0,0),tmpForward=new v3d.Vector3(),tmpRight=new v3d.Vector3(),moveVec=new v3d.Vector3();
-// gravedad
-var gravity=-9.8;       // m/s²
-var velocityY=0;        // velocidad vertical
-var groundY=-5;          // altura del suelo
-var onGround=false;
-// teclado
-document.addEventListener('keydown',function(e){keys[e.code]=true;});
-document.addEventListener('keyup',function(e){keys[e.code]=false;});
-// pointer lock / mouse (solo si no es touch)
-if(!('ontouchstart' in window)){
-  document.body.addEventListener('click',function(){document.body.requestPointerLock();});
-  document.addEventListener('pointerlockchange',function(){isPointerLocked=!!document.pointerLockElement;});
-  document.addEventListener('mousemove',function(e){if(!isPointerLocked)return;yaw-=e.movementX*turnSpeed;pitch-=e.movementY*turnSpeed;var max=Math.PI/2-0.01;pitch=Math.max(-max,Math.min(max,pitch));});
-}
-// --- JOYSTICK (solo para touch devices) ---
-var isTouch=('ontouchstart'in window);
-var joystick=null,knob=null,joystickCenter={x:0,y:0},activeTouchId=null,joystickValue={x:0,y:0};
-if(isTouch){
-  joystick=document.createElement('div');knob=document.createElement('div');
-  joystick.style.position='fixed';joystick.style.left='12px';joystick.style.bottom='12px';
-  joystick.style.width=(joystickRadius*2)+'px';joystick.style.height=(joystickRadius*2)+'px';joystick.style.borderRadius='50%';
-  joystick.style.background='rgba(0,0,0,0.25)';joystick.style.zIndex='9999';joystick.style.touchAction='none';
-  knob.style.position='absolute';knob.style.left=(joystickRadius-28)+'px';knob.style.top=(joystickRadius-28)+'px';
-  knob.style.width='56px';knob.style.height='56px';knob.style.borderRadius='50%';knob.style.background='rgba(255,255,255,0.9)';
-  knob.style.boxShadow='0 2px 6px rgba(0,0,0,0.3)';knob.style.touchAction='none';
-  joystick.appendChild(knob);document.body.appendChild(joystick);
-  function updateJoystickPos(){var rect=joystick.getBoundingClientRect();joystickCenter.x=rect.left+rect.width/2;joystickCenter.y=rect.top+rect.height/2;}
-  window.addEventListener('resize',updateJoystickPos);updateJoystickPos();
-  function onTouchStart(e){for(var i=0;i<e.changedTouches.length;i++){var t=e.changedTouches[i];if(activeTouchId===null&&t.clientX<window.innerWidth*joystickAreaWidthPct){activeTouchId=t.identifier;var left=Math.max(12,Math.min(t.clientX-joystickRadius,window.innerWidth*joystickAreaWidthPct-joystickRadius*2-12));joystick.style.left=left+'px';joystick.style.bottom=Math.max(12,(window.innerHeight-t.clientY)-joystickRadius)+'px';updateJoystickPos();e.preventDefault();}}}
-  function onTouchMove(e){for(var i=0;i<e.changedTouches.length;i++){var t=e.changedTouches[i];if(t.identifier===activeTouchId){var dx=t.clientX-joystickCenter.x,dy=t.clientY-joystickCenter.y;var nx=dx/joystickRadius,ny=dy/joystickRadius;ny=-ny;var len=Math.sqrt(nx*nx+ny*ny);if(len>1){nx/=len;ny/=len;}var dead=0.05;joystickValue.x=Math.abs(nx)>dead?nx:0;joystickValue.y=Math.abs(ny)>dead?ny:0;knob.style.left=(joystickRadius-28+joystickValue.x*(joystickRadius-28))+'px';knob.style.top=(joystickRadius-28+-joystickValue.y*(joystickRadius-28))+'px';e.preventDefault();}}}
-  function onTouchEnd(e){for(var i=0;i<e.changedTouches.length;i++){var t=e.changedTouches[i];if(t.identifier===activeTouchId){activeTouchId=null;joystickValue.x=0;joystickValue.y=0;knob.style.left=(joystickRadius-28)+'px';knob.style.top=(joystickRadius-28)+'px';e.preventDefault();}}}
-  document.addEventListener('touchstart',onTouchStart,{passive:false});
-  document.addEventListener('touchmove',onTouchMove,{passive:false});
-  document.addEventListener('touchend',onTouchEnd,{passive:false});
-  document.addEventListener('touchcancel',onTouchEnd,{passive:false});
-}
-// --- ROTACIÓN con touch (zona derecha) ---
-var rotatingId=null,prevRotPos={x:0,y:0};
-if(isTouch){
-  document.addEventListener('touchstart',function(e){for(var i=0;i<e.changedTouches.length;i++){var t=e.changedTouches[i];if(t.clientX>=window.innerWidth*joystickAreaWidthPct&&rotatingId===null){rotatingId=t.identifier;prevRotPos.x=t.clientX;prevRotPos.y=t.clientY;}}},{passive:false});
-  document.addEventListener('touchmove',function(e){for(var i=0;i<e.changedTouches.length;i++){var t=e.changedTouches[i];if(t.identifier===rotatingId){var dx=t.clientX-prevRotPos.x,dy=t.clientY-prevRotPos.y;yaw-=dx*touchTurnSpeed;pitch-=dy*touchTurnSpeed;var max=Math.PI/2-0.01;pitch=Math.max(-max,Math.min(max,pitch));prevRotPos.x=t.clientX;prevRotPos.y=t.clientY;e.preventDefault();}}},{passive:false});
-  document.addEventListener('touchend',function(e){for(var i=0;i<e.changedTouches.length;i++){if(e.changedTouches[i].identifier===rotatingId)rotatingId=null;}},{passive:false});
-  document.addEventListener('touchcancel',function(e){for(var i=0;i<e.changedTouches.length;i++){if(e.changedTouches[i].identifier===rotatingId)rotatingId=null;}},{passive:false});
-}
-// --- LOOP ---
-app.renderCallbacks.push(function(delta){
-  var moveX=0,moveZ=0;
-  if(keys['KeyW'])moveZ+=1;
-  if(keys['KeyS'])moveZ-=1;
-  if(keys['KeyA'])moveX-=1;
-  if(keys['KeyD'])moveX+=1;
-  if(isTouch){moveX+=joystickValue.x;moveZ+=joystickValue.y;}
-  var yawEuler=new v3d.Euler(0,yaw,0,'YXZ');
-  tmpForward.copy(forwardBase).applyEuler(yawEuler);tmpForward.y=0;tmpForward.normalize();
-  tmpRight.copy(rightBase).applyEuler(yawEuler);tmpRight.y=0;tmpRight.normalize();
-  moveVec.set(0,0,0);
-  if(moveZ!==0)moveVec.addScaledVector(tmpForward,moveZ);
-  if(moveX!==0)moveVec.addScaledVector(tmpRight,moveX);
-  if(moveVec.lengthSq()>0){moveVec.normalize();camera.position.addScaledVector(moveVec,moveSpeed*delta);}
-  // === GRAVEDAD ===
-  velocityY+=gravity*delta;camera.position.y+=velocityY*delta;
-  if(camera.position.y<=groundY){camera.position.y=groundY;velocityY=0;onGround=true;}else{onGround=false;}
-  // === ROTACIÓN ===
-  camera.rotation.order='YXZ';camera.rotation.y=yaw;camera.rotation.x=pitch;
-});
+// === LookOnlyControls Manager para Verge3D ===
+// - No fullscreen
+// - Sin movimiento (solo mirar)
+// - Sin zoom de rueda
+// - Se controla mediante window.LookOnlyControls.enable()/disable()/toggle()
+
+(function () {
+    if (!window || !app) {
+        console.warn("LookOnlyControls: 'app' no está disponible.");
+        return;
+    }
+    // No recrear si ya existe
+    if (window.LookOnlyControls) return;
+
+    var defaultContainer = app.container || (app.renderer && app.renderer.domElement) || document.body;
+
+    var manager = {
+        enabled: false,
+        _savedControls: null,
+        _savedControlsEnabled: null,
+        _lookControls: null,
+        _keyPreventHandler: null, // <--- Añadido para claridad
+        _wheelPreventHandler: null, // <--- Añadido
+        params: {
+            lookSpeed: 0.15,        // sensibilidad del ratón
+            movementSpeed: 0,       // 0 para desactivar movimiento
+            noFly: true,            // no volar
+            lookVertical: true,     // permitir mirar arriba/abajo
+            activeLook: true,
+            constrainVertical: true,
+            verticalMin: -Math.PI/2 + 0.01, // límites razonables (-89°)
+            verticalMax: Math.PI/2 - 0.01   // (89°)
+        },
+
+        enable: function (opts) {
+            if (this.enabled) return;
+            opts = opts || {};
+            Object.assign(this.params, opts);
+
+            // Guardar controles originales
+            this._savedControls = app.controls || null;
+            this._savedControlsEnabled = this._savedControls ? this._savedControls.enabled : null;
+            if (this._savedControls) {
+                try { this._savedControls.enabled = false; } catch (e) {}
+            }
+
+            // Preferimos v3d.FirstPersonControls si está disponible
+            if (v3d && v3d.FirstPersonControls) {
+                try {
+                    this._lookControls = new v3d.FirstPersonControls(app.camera, defaultContainer);
+
+                    // Aplicar parámetros: MOVIMIENTO = 0 para evitar moverse
+                    this._lookControls.lookSpeed = this.params.lookSpeed;
+                    this._lookControls.movementSpeed = this.params.movementSpeed; // 0 -> no mover
+                    this._lookControls.noFly = !!this.params.noFly;
+                    this._lookControls.lookVertical = !!this.params.lookVertical;
+                    this._lookControls.activeLook = !!this.params.activeLook;
+                    this._lookControls.constrainVertical = !!this.params.constrainVertical;
+                    if (this._lookControls.constrainVertical) {
+                        this._lookControls.verticalMin = this.params.verticalMin;
+                        this._lookControls.verticalMax = this.params.verticalMax;
+                    }
+                    
+                    app.controls = this._lookControls;
+                    try { this._lookControls.enabled = true; } catch (e) {}
+                } catch (err) {
+                    console.error("LookOnlyControls: error creando FirstPersonControls", err);
+                    if (this._savedControls) {
+                        try { this._savedControls.enabled = this._savedControlsEnabled; app.controls = this._savedControls; } catch(e){}
+                    }
+                    return;
+                }
+            } else {
+                // Fallback: si no está FirstPersonControls, intentar OrbitControls
+                if (v3d && v3d.OrbitControls) {
+                    try {
+                        var orbit = new v3d.OrbitControls(app.camera, defaultContainer);
+                        orbit.enableRotate = true;
+                        orbit.enablePan = false;
+                        orbit.enableZoom = false; // <-- Esto ya deshabilita el zoom en OrbitControls
+
+                        if (typeof orbit.enableKeys !== 'undefined') {
+                            orbit.enableKeys = false;
+                        }
+                        if (typeof orbit.enableKeyboardControls !== 'undefined') {
+                            orbit.enableKeyboardControls = false;
+                        }
+                        orbit.keyPanSpeed = 0;
+                        
+                        orbit.rotateSpeed = this.params.lookSpeed * 10;
+                        orbit.target.copy(app.camera.position).add(new v3d.Vector3(0,0,-1));
+                        orbit.update();
+
+                        this._lookControls = orbit;
+                        app.controls = this._lookControls;
+                        try { this._lookControls.enabled = true; } catch (e) {}
+                    } catch (err) {
+                        console.error("LookOnlyControls: fallback OrbitControls falló", err);
+                        if (this._savedControls) {
+                            try { this._savedControls.enabled = this._savedControlsEnabled; app.controls = this._savedControls; } catch(e){}
+                        }
+                        return;
+                    }
+                } else {
+                    console.error("LookOnlyControls: no se encontró FirstPersonControls ni OrbitControls.");
+                    if (this._savedControls) {
+                        try { this._savedControls.enabled = this._savedControlsEnabled; app.controls = this._savedControls; } catch(e){}
+                    }
+                    return;
+                }
+            }
+
+            // Evitar que las teclas W/A/S/D/Arrow... muevan la cámara O la página
+            this._keyPreventHandler = function (e) {
+                var keys = ['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','KeyW','KeyA','KeyS','KeyD','Space'];
+                if (keys.indexOf(e.code) !== -1) {
+                    e.preventDefault(); // Detener la acción del navegador (scroll)
+                    e.stopPropagation(); // Detener la propagación al listener de FirstPersonControls
+                }
+            };
+            // Usar { capture: true } para que este listener se ejecute PRIMERO
+            window.addEventListener('keydown', this._keyPreventHandler, { capture: true, passive: false });
+
+            // *** NUEVO: Evitar que la rueda del ratón haga scroll/zoom en la página ***
+            this._wheelPreventHandler = function (e) {
+                e.preventDefault(); // Detener la acción del navegador (scroll/zoom)
+                e.stopPropagation(); // Detener la propagación
+            };
+            // Usar { capture: true } y { passive: false } para prevenir el scroll
+            window.addEventListener('wheel', this._wheelPreventHandler, { capture: true, passive: false });
+
+
+            this.enabled = true;
+            console.log("LookOnlyControls: habilitado (solo mirar).");
+        },
+
+        disable: function () {
+            if (!this.enabled) return;
+
+            // Desactivar controles de mirar
+            try {
+                if (this._lookControls) {
+                    this._lookControls.enabled = false;
+                    if (typeof this._lookControls.dispose === 'function') {
+                        try { this._lookControls.dispose(); } catch (e) {}
+                    }
+                }
+            } catch (e) {}
+
+            // Restaurar controles originales
+            if (this._savedControls) {
+                try {
+                    app.controls = this._savedControls;
+                    if (typeof this._savedControls.enabled !== 'undefined') this._savedControls.enabled = this._savedControlsEnabled;
+                } catch (e) {
+                    console.warn("LookOnlyControls: error restaurando controles originales", e);
+                    app.controls = this._savedControls;
+                }
+            } else {
+                try { app.controls = null; } catch (e) {}
+            }
+
+            // Quitar bloqueo de teclas
+            if (this._keyPreventHandler) {
+                window.removeEventListener('keydown', this._keyPreventHandler, { capture: true, passive: false });
+                this._keyPreventHandler = null;
+            }
+
+            // *** NUEVO: Quitar bloqueo de rueda del ratón ***
+            if (this._wheelPreventHandler) {
+                window.removeEventListener('wheel', this._wheelPreventHandler, { capture: true, passive: false });
+                this._wheelPreventHandler = null;
+            }
+
+            this._lookControls = null;
+            this._savedControls = null;
+            this._savedControlsEnabled = null;
+            this.enabled = false;
+            console.log("LookOnlyControls: deshabilitado y controles originales restaurados.");
+        },
+
+        toggle: function (opts) {
+            if (this.enabled) this.disable();
+            else this.enable(opts);
+        }
+    };
+
+    // Exponer en window para acceso desde Puzzles / consola
+    window.LookOnlyControls = manager;
+
+    // --- SECCIÓN DE TECLA 'F' ELIMINADA ---
+
+    console.log("LookOnlyControls listo. Usa window.LookOnlyControls.enable()/disable()/toggle().");
+})();

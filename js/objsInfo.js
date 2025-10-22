@@ -13,21 +13,32 @@ function onMouseClick(event) {
     var raycaster = new THREE.Raycaster();
     raycaster.setFromCamera(mouse, app.camera);
 
-    // Obtener todos los objetos 
-    var objects = [];
-    app.scene.traverse(function(child) {
-        if (child.isMesh) {
-            objects.push(child);
-        }
-    });
-
-    var intersects = raycaster.intersectObjects(objects, true);
+    // Simplificado: intersectObjects puede buscar de forma recursiva en la escena
+    // El 'true' final significa que la búsqueda es recursiva (buscará en todos los hijos)
+    var intersects = raycaster.intersectObjects(app.scene.children, true);
 
     if (intersects.length > 0) {
         var object = intersects[0].object;
-        var camPos = app.camera.position;
-        console.log(`Hiciste clic en: ${object.name}`);
-        console.log(`Posición de la cámara: X=${camPos.x.toFixed(2)}, Y=${camPos.y.toFixed(2)}, Z=${camPos.z.toFixed(2)}`);
+        var objectName = object.name;
+        
+        console.log(`Hiciste clic en: ${objectName}`);
+
+        // --- INICIO DE LA MODIFICACIÓN ---
+        
+        // Comprobar si los puzzles de Verge3D están listos y
+        // si existe un procedimiento con el nombre del objeto clickeado.
+        if (v3d.puzzles && v3d.puzzles.procedures && typeof v3d.puzzles.procedures[objectName] === 'function') {
+            
+            // Si existe, ejecutarlo
+            console.log(`Ejecutando procedimiento de Puzzles: "${objectName}"`);
+            v3d.puzzles.procedures[objectName]();
+
+        } else {
+            // Opcional: Avisar si se hizo clic en un objeto que no tiene un procedimiento asociado
+            console.log(`No se encontró un procedimiento de Puzzles llamado: "${objectName}"`);
+        }
+        
+        // --- FIN DE LA MODIFICACIÓN ---
     }
 }
 

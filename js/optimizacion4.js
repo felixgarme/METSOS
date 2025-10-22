@@ -1,5 +1,5 @@
 // Reducir resolución al 50% (por ejemplo)
-const scaleFactor = 0.8; // 1 = 100%, 0.5 = 50%
+const scaleFactor = 0.9; // 1 = 100%, 0.5 = 50%
 
 // Ajustar el tamaño del renderer
 app.renderer.setSize(
