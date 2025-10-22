@@ -34,3 +34,4 @@ import("../js/Proceso/ProcesoB1.js");
 import("../js/Proceso/ProcesoB2.js");
 import("../js/Proceso/ProcesoC1.js");
 import("../js/Proceso/ProcesoC2.js");
+import("../js/Proceso/ProcesoC3.js");
