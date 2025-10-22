@@ -3,7 +3,7 @@
 // Crear el botón "Continuar 2"
 const continuarBtn2 = document.createElement("button");
 continuarBtn2.id = "continuarBtn2";
-continuarBtn2.innerText = "Continuar 2";
+continuarBtn2.innerText = "continuarC";
 
 // Estilos del botón
 const style2 = document.createElement("style");

@@ -24,6 +24,7 @@ import("../js/zoomCamara.js");//Zoom de la camara MAXIMO
 
 import("../js/objsInfo.js");//Informacion de los objetos y de la camara
 // import("../js/fps.js");//Mostrar los FPS
+import("../js/crearTexto.js");//Raycaster para seleccionar objetos
 
 //PROCESO///////////////////////////////////////////////////////////////////////////////////////////
 

@@ -30,9 +30,9 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  pointer-events: none; /* no interfiere con la escena */
+  pointer-events: none;
   z-index: 9999;
-  perspective: 1200px; /* para profundidad 3D */
+  perspective: 1200px;
   display: flex;
   flex-direction: column;
   align-items: center;
