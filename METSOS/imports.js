@@ -36,3 +36,7 @@ import("../js/Proceso/Proceso1.js");
 
 import("../js/Proceso/Proceso Ondas.js");
 // import("../js/Proceso/ProcesoC3.js");
+
+
+//Terminado///////////////////////////////////////////////////////////////////////////////////////////
+v3d.puzzles.procedures["inicio"]();

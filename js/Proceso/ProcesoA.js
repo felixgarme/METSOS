@@ -31,7 +31,7 @@ if (!window.botonesVACreados) {
 
   // Registro global
   window.v3dButtonLists = window.v3dButtonLists || {};
-  window.v3dListOrder = ['VA', 'VB']; // Asegúrate que coincida con tus listas
+  window.v3dListOrder = ['VA', 'VB', 'VC']; // Asegúrate que coincida con tus listas
   window.v3dCurrentListIndex = 0;
 
   // ⏱️ Variable global de bloqueo por delay

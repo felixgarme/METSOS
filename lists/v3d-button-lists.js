@@ -37,9 +37,11 @@
 
     // ----- NUEVO: Botones VC -----
     const botonesVC=[
-      {texto:'Item C 1',proc:'vC1'},
-      {texto:'Item C 2',proc:'vC2'},
-      {texto:'Item C 3',proc:'vC3'}
+      {texto:'Zona 1',proc:'vC1'},
+      {texto:'Zona 2',proc:'vC2'},
+      {texto:'Zona 3',proc:'vC3'},
+      {texto:'Zona 4',proc:'vC4'},
+      {texto:'Vista General',proc:'vCx'}
     ];
     window.createV3DButtonList('VC',botonesVC,{
       containerId:'miContenedorBotonesVC',
