@@ -20,6 +20,9 @@ import("../js/camara.js");
 import("../js/LimiteSuelo.js");
 import("../js/zoomCamara.js");//Zoom de la camara MAXIMO
 
+// import("../js/CamaraLibre.js");
+
+
 //HERRAMIENTAS//////////////////////////////////////////////////////////////////////////////////////
 
 import("../js/objsInfo.js");//Informacion de los objetos y de la camara
@@ -29,9 +32,7 @@ import("../js/crearTexto.js");//Raycaster para seleccionar objetos
 //PROCESO///////////////////////////////////////////////////////////////////////////////////////////
 
 import("../js/Proceso/Proceso1.js");
-import("../js/Proceso/ProcesoA.js");
-import("../js/Proceso/ProcesoB1.js");
-import("../js/Proceso/ProcesoB2.js");
-import("../js/Proceso/ProcesoC1.js");
-import("../js/Proceso/ProcesoC2.js");
-import("../js/Proceso/ProcesoC3.js");
+// import("../js/Proceso/ProcesoB2.js");
+
+import("../js/Proceso/Proceso Ondas.js");
+// import("../js/Proceso/ProcesoC3.js");

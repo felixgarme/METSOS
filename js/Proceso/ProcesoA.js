@@ -1,356 +1,286 @@
 // 1. Comprobar si los botones ya fueron creados
 if (!window.botonesVACreados) {
 
-    // --- A. INYECTAR CSS PARA LOS BOTONES ---
-    // (Solo se ejecuta una vez)
-    const cssId = 'v3d-pro-button-styles';
-    if (!document.getElementById(cssId)) {
-        const style = document.createElement('style');
-        style.id = cssId;
-        style.innerHTML = `
-            /* Define la animación de aparición */
-            @keyframes fadeInSlideUp {
-                from { opacity: 0; transform: translateY(10px); }
-                to { opacity: 1; transform: translateY(0); }
-            }
-            
-            /* Animación para la flecha del botón */
-            @keyframes fadeInArrow {
-                from { opacity: 0; right: -15px; }
-                to { opacity: 1; right: -25px; }
-            }
+  // A. Enlazar CSS externo (solo una vez)
+  const cssId = 'v3d-pro-button-styles';
+  if (!document.getElementById(cssId)) {
+    const link = document.createElement('link');
+    link.id = cssId; link.rel = 'stylesheet';
+    link.href = '../css/v3d-pro-button-styles.css';
+    document.head.appendChild(link);
+  }
 
-            /* Contenedor de los botones */
-            #miContenedorBotonesVA {
-                position: absolute;
-                top: 50vh; 
-                left: 40px; 
-                z-index: 100;
-                display: none; /* Oculto por defecto */
-                flex-direction: column;
-                gap: 10px;
-                transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-            }
+  // B. Añadir CSS interno para bloqueo visual (NUEVO)
+  const lockStyleId = 'v3d-lock-styles';
+  if (!document.getElementById(lockStyleId)) {
+    const style = document.createElement('style');
+    style.id = lockStyleId;
+    style.textContent = `
+      /* Estilo para cuando los botones están bloqueados temporalmente */
+      .v3d-buttons-locked .v3d-pro-button,
+      .v3d-buttons-locked .v3d-next-button,
+      .v3d-buttons-locked .v3d-prev-button {
+          opacity: 0.6 !important;
+          cursor: wait !important;
+          pointer-events: none !important;
+          transition: opacity 0.2s ease !important;
+      }
+    `;
+    document.head.appendChild(style);
+  }
 
-            /* Estilo profesional y animado del botón */
-            .v3d-pro-button {
-                background-color: #ffffff;
-                color: #333333;
-                border: 2px solid transparent; /* Borde base (aumentado a 2px) */
-                border-radius: 8px;
-                padding: 12px 18px;
-                font-size: 14px;
-                font-family: Arial, sans-serif;
-                font-weight: 600;
-                cursor: pointer;
-                text-align: left;
-                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-                transition: all 0.2s ease-in-out, border-color 0.3s ease;
-                position: relative;
-            }
+  // Registro global
+  window.v3dButtonLists = window.v3dButtonLists || {};
+  window.v3dListOrder = ['VA', 'VB']; // Asegúrate que coincida con tus listas
+  window.v3dCurrentListIndex = 0;
 
-            .v3d-pro-button:not(.disabled):not(.active):hover {
-                background-color: #f5f5f5;
-                box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
-                transform: translateY(-2px); 
-            }
+  // ⏱️ Variable global de bloqueo por delay
+  window.v3dClickBloqueado = false;
+  // MODIFICADO: 3000 milisegundos (3s)
+  window.v3dClickDelay = 3000;
 
-            .v3d-pro-button:not(.disabled):active {
-                transform: translateY(0) scale(0.98);
-                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            }
+  // Crear lista genérica
+  window.createV3DButtonList = function (key, cfg, opts) {
+    if (!key || !Array.isArray(cfg)) return;
+    const k = key.toUpperCase();
+    if (window.v3dButtonLists[k]?.created) return;
 
-            /* --- ESTADOS DE BOTÓN --- */
+    const idC = opts?.containerId || `miContenedorBotones${k}`;
+    const idN = opts?.nextButtonId || `v3d-next-button-${k}`;
+    const idM = opts?.mainContainerId || 'v3d-container';
 
-            /* --- CAMBIO: Botones futuros (no vistos) ahora son borrosos --- */
-            .v3d-pro-button.disabled {
-                background-color: #f0f0f0;
-                color: #999999;
-                cursor: not-allowed;
-                opacity: 0.7;
-                filter: blur(1px);
-                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            }
-
-            /* --- CAMBIO: Botones completados (vistos) ahora están nítidos --- */
-            .v3d-pro-button.completed {
-                background-color: #f0fff0;
-                border-color: #5cb85c;
-                color: #3c763d;
-                /* Se quitaron opacity y filter */
-            }
-            
-            /* --- BOTÓN ACTIVO --- */
-            .v3d-pro-button.active {
-                border-color: #007bff; /* Borde azul brillante */
-                transform: scale(1.03); /* Un poco más grande */
-                box-shadow: 0 6px 16px rgba(0, 123, 255, 0.2);
-                /* Asegura que sea nítido (anula el blur de .disabled si se activa) */
-                opacity: 1;
-                filter: none;
-            }
-
-            /* Flecha a la derecha del botón activo */
-            .v3d-pro-button.active::after {
-                content: '‹'; /* Flecha izquierda, apuntando al botón */
-                position: absolute;
-                right: -25px; /* Posición a la derecha del botón */
-                top: 50%;
-                transform: translateY(-50%);
-                font-size: 30px;
-                font-weight: bold;
-                color: #007bff; /* Color azul */
-                animation: fadeInArrow 0.5s ease;
-            }
-
-            /* --- BOTÓN 'SIGUIENTE' (FLECHA) --- */
-            #v3d-next-button {
-                position: absolute;
-                bottom: 20px;
-                right: 20px;
-                z-index: 101;
-                width: 50px;
-                height: 50px;
-                background-color: #ffffff;
-                border-radius: 50%;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-                cursor: pointer;
-                display: none;
-                align-items: center;
-                justify-content: center;
-                transition: all 0.2s ease;
-            }
-            #v3d-next-button:hover {
-                transform: scale(1.1);
-                box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
-            }
-            #v3d-next-button::after {
-                content: '›';
-                font-size: 36px;
-                font-weight: bold;
-                color: #333;
-                line-height: 50px;
-                padding-left: 3px;
-            }
-        `;
-        document.head.appendChild(style);
-    }
-
-    // --- B. CONFIGURACIÓN ---
-    window.nivelDesbloqueadoVA = 0;
-
-    const botonesConfig = [
-        { texto: 'Entrada', proc: 'vA1' },
-        { texto: 'Vista 2',  proc: 'vA2' },
-        { texto: 'Vista 3',  proc: 'vA3' },
-        { texto: 'Vista 4',  proc: 'vA4' },
-        { texto: 'Vista 5',  proc: 'vA5' },
-        { texto: 'Vista 6',  proc: 'vA6' },
-        { texto: 'Vista 7',  proc: 'vA7' }
-    ];
-    
-    const contenedorId = 'miContenedorBotonesVA';
-
-    // --- C. CREAR CONTENEDOR ---
-    const container = document.createElement('div');
-    container.id = contenedorId;
-
-    // --- D. CREAR CADA BOTÓN ---
-    botonesConfig.forEach((item, index) => {
-        
-        const btn = document.createElement('button');
-        btn.innerText = item.texto;
-        btn.className = 'v3d-pro-button';
-        btn.dataset.index = index;
-
-        if (index > window.nivelDesbloqueadoVA) {
-            btn.classList.add('disabled');
-        }
-
-        // === CAMBIO EN EL EVENTO CLICK ===
-        btn.addEventListener('click', function() {
-            if (this.classList.contains('disabled')) return;
-            
-            const nombreProc = item.proc; 
-            const clickedIndex = index; // Guardamos el índice del botón clickeado
-            
-            if (v3d.puzzles && v3d.puzzles.procedures && typeof v3d.puzzles.procedures[nombreProc] === 'function') {
-                v3d.puzzles.procedures[nombreProc](); 
-                console.log(`Procedimiento de puzzle llamado: ${nombreProc}`);
-                
-                // 1. Actualiza el *progreso* (desbloquea el siguiente)
-                window.desbloquearSiguienteNivelVA(clickedIndex);
-
-                // 2. Actualiza la *vista* (centra en el botón clickeado)
-                window.actualizarEstadoBotonesVA(clickedIndex);
-
-            } else {
-                console.warn(`El procedimiento de puzzle "${nombreProc}" no se encontró.`);
-            }
-        });
-
-        container.appendChild(btn);
-    });
-    
-    // --- E. CREAR BOTÓN 'SIGUIENTE' (FLECHA) ---
-    const nextButton = document.createElement('div');
-    nextButton.id = 'v3d-next-button';
-    nextButton.addEventListener('click', function() {
-        const allButtons = document.querySelectorAll(`#${contenedorId} .v3d-pro-button`);
-        // El target es el *siguiente* botón desbloqueado
-        const targetButton = allButtons[window.nivelDesbloqueadoVA]; 
-        
-        if (targetButton && !targetButton.classList.contains('disabled')) {
-            targetButton.click(); // Simula un clic en el siguiente
-        }
-    });
-
-    // --- F. AÑADIR CONTENEDORES A LA PÁGINA ---
-    const mainContainer = document.getElementById('v3d-container');
-    if (mainContainer) {
-        mainContainer.appendChild(container);
-        mainContainer.appendChild(nextButton);
-    } else {
-        document.body.appendChild(container);
-        document.body.appendChild(nextButton);
-    }
-
-    // --- G. NUEVAS FUNCIONES DE CONTROL GLOBAL ---
-
-    // === CAMBIO: Acepta un 'centroIndex' y muestra botones futuros borrosos ===
-    window.actualizarEstadoBotonesVA = function(centroIndex) {
-        const cont = document.getElementById(contenedorId);
-        if (!cont) return;
-
-        const allButtons = cont.querySelectorAll('.v3d-pro-button');
-        let allCompleted = true;
-        let offsetTop = 0;
-        const gap = 10; // El 'gap' definido en el CSS
-
-        // Si no se especifica un botón para centrar (ej. al abrir el menú),
-        // centramos en el botón del progreso actual.
-        if (centroIndex === undefined) {
-            centroIndex = window.nivelDesbloqueadoVA;
-        }
-
-        // Asegurarse de que centroIndex no se pase del límite
-        if (centroIndex >= allButtons.length && allButtons.length > 0) {
-            centroIndex = allButtons.length - 1; // Centrar en el último
-        }
-
-        let activeButton = allButtons[centroIndex]; // El botón que queremos centrar
-
-        // --- Lógica de Estado (Disabled/Completed/Active) ---
-        allButtons.forEach((btn, index) => {
-            btn.classList.remove('disabled', 'completed', 'active');
-            btn.style.display = 'block'; // Asegura que todos sean visibles
-
-            // 1. Aplicar estado de PROGRESO (usa la variable global)
-            if (index < window.nivelDesbloqueadoVA) {
-                btn.classList.add('completed');
-            } else if (index > window.nivelDesbloqueadoVA) {
-                btn.classList.add('disabled'); // <-- AHORA ESTOS SON VISIBLES Y BORROSOS
-                allCompleted = false;
-            } else {
-                // Es el botón actual de progreso
-                allCompleted = false;
-            }
-            
-            // 2. Aplicar estado ACTIVO (usa el botón clickeado)
-            if (index === centroIndex) {
-                btn.classList.add('active');
-            }
-        });
-
-        // --- LÓGICA DE CENTRADO (SCROLL) ---
-        if (activeButton) {
-            offsetTop = 0; // Resetear
-            // 1. Calcular altura de TODOS los botones anteriores al botón ACTIVO
-            for (let i = 0; i < allButtons.length; i++) {
-                const btn = allButtons[i];
-                if (i < centroIndex) {
-                    // Ahora simplemente sumamos la altura de todos los botones anteriores
-                    offsetTop += btn.offsetHeight + gap;
-                } else {
-                    break;
-                }
-            }
-            
-            // 2. El offset es la altura anterior + la mitad del botón activo
-            const centeringOffset = offsetTop + (activeButton.offsetHeight / 2);
-            
-            // 3. Aplicar el transform al contenedor
-            cont.style.transform = `translateY(-${centeringOffset}px)`;
-        }
-        // --- FIN LÓGICA DE CENTRADO ---
-
-        // Ocultar la flecha 'siguiente' si todo está completo
-        const nextBtn = document.getElementById('v3d-next-button');
-        if (nextBtn) {
-            if (allCompleted) {
-                nextBtn.style.display = 'none';
-            } else if (cont.style.display === 'flex') { // Mostrar si el menú está visible
-                nextBtn.style.display = 'flex';
-            }
-        }
+    const state = {
+      key: k,
+      containerId: idC,
+      nextButtonId: idN,
+      nivelDesbloqueado: 0,
+      botonesConfig: cfg.slice(),
+      created: false
     };
+    window.v3dButtonLists[k] = state;
 
-    // === CAMBIO: Esta función SÓLO actualiza el progreso, no la UI ===
-    window.desbloquearSiguienteNivelVA = function(indexCompletado) {
-        const nuevoNivel = indexCompletado + 1;
-        // Solo actualizar si estamos avanzando
-        if (nuevoNivel > window.nivelDesbloqueadoVA) {
-            window.nivelDesbloqueadoVA = nuevoNivel;
+    const cont = document.createElement('div');
+    cont.id = idC;
+    cont.classList.add('miContenedorBotones', `miContenedorBotones-${k}`);
+    cont.dataset.listKey = k;
+    cont.style.display = 'none';
+
+    cfg.forEach((it, i) => {
+      const b = document.createElement('button');
+      b.innerText = it.texto;
+      b.className = 'v3d-pro-button';
+      b.dataset.index = i;
+      b.dataset.listKey = k;
+      if (i > state.nivelDesbloqueado) b.classList.add('disabled');
+      b.onclick = () => {
+        // ⏱️ Anti-click rápido
+        if (window.v3dClickBloqueado) {
+          console.warn('Por favor, espera un momento antes de presionar otro botón.');
+          return;
         }
-        // El evento 'click' se encarga de llamar a ambas funciones.
-    };
+        if (b.classList.contains('disabled')) return;
 
-    // --- H. FUNCIÓN DE CONTROL GLOBAL (MODIFICADA) ---
-    window.toggleBotonesVA = function(mostrar) {
-        const cont = document.getElementById(contenedorId);
-        const nextBtn = document.getElementById('v3d-next-button');
-        if (!cont || !nextBtn) return; 
+        // MODIFICADO: Activar bloqueo visual
+        window.v3dClickBloqueado = true;
+        document.body.classList.add('v3d-buttons-locked');
+        setTimeout(() => {
+          window.v3dClickBloqueado = false;
+          // MODIFICADO: Desactivar bloqueo visual
+          document.body.classList.remove('v3d-buttons-locked');
+        }, window.v3dClickDelay);
 
-        if (mostrar) {
-            cont.style.display = 'flex';
-            
-            // Al abrir, centrar en el nivel de progreso actual (no se pasa índice)
-            window.actualizarEstadoBotonesVA(); 
-            
-            const allButtons = cont.getElementsByClassName('v3d-pro-button');
-            
-            // Animar cada botón VISIBLE
-            for (let i = 0; i < allButtons.length; i++) {
-                const btn = allButtons[i];
-                
-                // (Se quitó el chequeo de 'display: none', ahora todos animan)
-                
-                btn.style.opacity = '0';
-                btn.style.transform = 'translateY(10px)';
-                btn.style.animation = 'none';
-                void btn.offsetWidth; 
-                const delay = i * 0.07;
-                if (btn.classList.contains('active')) {
-                    btn.style.transform = 'translateY(10px)'; 
-                }
-                btn.style.animation = `fadeInSlideUp 0.3s ease-out ${delay}s forwards`;
-            }
-            
-            // Forzar que el centrado y estado 'active' se aplique DESPUÉS de la animación
-            // Llama sin argumento para centrar en el progreso actual.
-            setTimeout(window.actualizarEstadoBotonesVA, 500);
-
+        const p = it.proc;
+        if (window.v3d?.puzzles?.procedures?.[p]) {
+          v3d.puzzles.procedures[p]();
+          console.log('Procedimiento:', p);
+          window.desbloquearSiguienteNivelV3D(k, i);
+          window.actualizarEstadoBotonesV3D(k, i);
         } else {
-            // Ocultar ambos
-            cont.style.display = 'none';
-            nextBtn.style.display = 'none';
+          console.warn(`No se encontró el procedimiento "${p}"`);
         }
+      };
+      cont.appendChild(b);
+    });
+
+    // 🔹 Botones de navegación con texto
+    const next = document.createElement('button'),
+      prev = document.createElement('button');
+    next.id = idN;
+    prev.id = `v3d-prev-button-${k}`;
+    next.classList.add('v3d-next-button');
+    prev.classList.add('v3d-prev-button');
+    next.dataset.listKey = prev.dataset.listKey = k;
+    next.textContent = 'Continuar';
+    prev.textContent = 'Anterior';
+    next.style.display = prev.style.display = 'none';
+
+    // ⏱️ Anti-spam también en navegación
+    next.onclick = () => {
+      if (window.v3dClickBloqueado) return;
+      
+      // MODIFICADO: Activar bloqueo visual
+      window.v3dClickBloqueado = true;
+      document.body.classList.add('v3d-buttons-locked');
+      setTimeout(() => {
+        window.v3dClickBloqueado = false;
+        // MODIFICADO: Desactivar bloqueo visual
+        document.body.classList.remove('v3d-buttons-locked');
+      }, window.v3dClickDelay);
+      
+      window.nextV3DList();
+    };
+    prev.onclick = () => {
+      if (window.v3dClickBloqueado) return;
+      
+      // MODIFICADO: Activar bloqueo visual
+      window.v3dClickBloqueado = true;
+      document.body.classList.add('v3d-buttons-locked');
+      setTimeout(() => {
+        window.v3dClickBloqueado = false;
+        // MODIFICADO: Desactivar bloqueo visual
+        document.body.classList.remove('v3d-buttons-locked');
+      }, window.v3dClickDelay);
+      
+      window.prevV3DList();
     };
 
-    // --- I. ESTADO INICIAL (OCULTOS) ---
-    window.toggleBotonesVA(false);
+    (document.getElementById(idM) || document.body).append(cont, next, prev);
+    state.created = true;
+    return state;
+  };
 
-    // --- J. MARCAR COMO CREADOS ---
-    window.botonesVACreados = true;
+  // Actualizar botones
+  window.actualizarEstadoBotonesV3D = function (k, idx) {
+    k = k.toUpperCase();
+    const s = window.v3dButtonLists[k];
+    if (!s) return;
+    const c = document.getElementById(s.containerId),
+      n = document.getElementById(s.nextButtonId),
+      p = document.getElementById(`v3d-prev-button-${k}`);
+    if (!c || !n || !p) return;
 
-} // <-- Fin del 'if (!window.botonesVACreados)'
+    const btns = c.querySelectorAll('.v3d-pro-button');
+    let done = true, gap = 10;
+    idx ??= s.nivelDesbloqueado;
+    if (idx >= btns.length) idx = btns.length - 1;
+
+    btns.forEach((b, i) => {
+      b.classList.remove('disabled', 'completed', 'active');
+      if (i < s.nivelDesbloqueado) b.classList.add('completed');
+      else if (i > s.nivelDesbloqueado) { b.classList.add('disabled'); done = false; }
+      else done = false;
+      if (i === idx) b.classList.add('active');
+    });
+
+    const act = btns[idx];
+    if (act) {
+      let off = 0;
+      for (let i = 0; i < idx; i++) off += btns[i].offsetHeight + gap;
+      c.style.transform = `translateY(-${off + act.offsetHeight / 2}px)`;
+    }
+
+    // 🔹 Mostrar “Continuar” solo si hay siguiente lista
+    const curIndex = window.v3dListOrder.indexOf(k);
+    const hasNext = curIndex < window.v3dListOrder.length - 1;
+    n.style.display = done && hasNext ? 'flex' : 'none';
+    p.style.display = curIndex > 0 ? 'flex' : 'none';
+  };
+
+  // Desbloquear siguiente nivel
+  window.desbloquearSiguienteNivelV3D = function (k, i) {
+    k = k.toUpperCase();
+    const s = window.v3dButtonLists[k];
+    if (!s) return;
+    const n = i + 1;
+    if (n > s.nivelDesbloqueado) s.nivelDesbloqueado = n;
+  };
+
+  // Mostrar / ocultar listas
+  window.toggleBotonesV3D = function (k, show) {
+    k = k.toUpperCase();
+    const s = window.v3dButtonLists[k];
+    if (!s) return;
+    const c = document.getElementById(s.containerId),
+      n = document.getElementById(s.nextButtonId),
+      p = document.getElementById(`v3d-prev-button-${k}`);
+    if (!c || !n || !p) return;
+
+    if (show) {
+      c.style.display = 'flex';
+      c.style.flexDirection = 'column';
+      window.actualizarEstadoBotonesV3D(k);
+
+      // 🔹 Efecto delay secuencial
+      [...c.getElementsByClassName('v3d-pro-button')].forEach((b, i) => {
+        b.style.opacity = '0';
+        b.style.transform = 'translateY(10px)';
+        setTimeout(() => {
+          b.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+          b.style.opacity = '1';
+          b.style.transform = 'translateY(0)';
+        }, i * 120);
+      });
+
+      setTimeout(() => window.actualizarEstadoBotonesV3D(k), 500);
+    } else {
+      c.style.display = n.style.display = p.style.display = 'none';
+    }
+  };
+
+  // Navegación entre listas
+  window.nextV3DList = function () {
+    const cur = window.v3dListOrder[window.v3dCurrentListIndex],
+      nxt = window.v3dListOrder[window.v3dCurrentListIndex + 1];
+    if (!nxt) return;
+
+    // MODIFICADO: Llamar al procedimiento con el nombre de la lista destino (nxt)
+    if (window.v3d?.puzzles?.procedures?.[nxt]) {
+      v3d.puzzles.procedures[nxt]();
+      console.log(`Procedimiento: ${nxt} (next)`);
+    } else {
+      console.warn(`No se encontró el procedimiento "${nxt}"`);
+    }
+
+    window.toggleBotonesV3D(cur, false);
+    window.toggleBotonesV3D(nxt, true);
+    window.v3dCurrentListIndex++;
+  };
+
+  // ***** CAMBIO AQUÍ *****
+  window.prevV3DList = function () {
+    const cur = window.v3dListOrder[window.v3dCurrentListIndex],
+      prv = window.v3dListOrder[window.v3dCurrentListIndex - 1];
+    if (!prv) return;
+
+    // MODIFICADO: Ya no se llama al procedimiento al ir a "Anterior".
+    // Se ha comentado el bloque que lo hacía.
+    /*
+    if (window.v3d?.puzzles?.procedures?.[prv]) {
+      v3d.puzzles.procedures[prv]();
+      console.log(`Procedimiento: ${prv} (prev)`);
+    } else {
+      console.warn(`No se encontró el procedimiento "${prv}"`);
+    }
+    */
+   console.log(`Volviendo a la lista: ${prv}`);
+
+    window.toggleBotonesV3D(cur, false);
+    window.toggleBotonesV3D(prv, true);
+    window.v3dCurrentListIndex--;
+  };
+  // ***** FIN DEL CAMBIO *****
+
+
+  // Cargar listas
+  const sid = 'v3d-button-lists-script';
+  if (!document.getElementById(sid)) {
+    const s = document.createElement('script');
+    s.id = sid;
+    // Asegúrate que esta ruta es correcta
+    s.src = '../lists/v3d-button-lists.js'; 
+    s.defer = true;
+    document.body.appendChild(s);
+  }
+
+  window.botonesVACreados = true;
+}
