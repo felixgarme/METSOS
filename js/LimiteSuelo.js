@@ -1,7 +1,7 @@
 app.controls.addEventListener("change", function () {
     var raycaster = new v3d.Raycaster();
     var downVector = new v3d.Vector3(0, -1, 0);
-    var terreno = app.scene.getObjectByName("pPlane3");
+    var terreno = app.scene.getObjectByName("Mesh.6847_0");
 
     if (!terreno) return;
 

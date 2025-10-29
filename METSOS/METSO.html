@@ -36,13 +36,292 @@
 
   <link rel="stylesheet" type="text/css" href="METSO.css">
 
+  <!-- ===== Loader styles (añadidos / ajustados) ===== -->
+  <style>
+    /* Fullscreen loader overlay */
+    #v3d-loader{
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff; /* fondo blanco */
+      z-index: 99999;
+      /* solo animamos opacity para el fade-out */
+      transition: opacity 0.8s cubic-bezier(.2,.8,.2,1);
+      opacity: 1;
+      visibility: visible;
+      pointer-events: all;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Inner wrapper to allow centering and responsive sizing */
+    .v3d-loader-inner{
+      text-align: center;
+      will-change: transform;
+    }
+
+    /* The word container with letters as inline blocks */
+    .v3d-loader-word{
+      display: inline-flex;
+      gap: 6px;
+      align-items: baseline;
+      justify-content: center;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      font-weight: 700;
+      color: #000; /* letras negras */
+      letter-spacing: 1px;
+      /* size responsive: min 28px, max 96px */
+      font-size: clamp(28px, 6vw, 96px);
+    }
+
+    /*
+      Variables:
+        --jump-duration : duración efectiva del salto (por ciclo de salto visible)
+        --cycle-delay   : tiempo de "pausa" entre ciclos
+        --start-delay   : delay inicial antes de que empiecen las secuencias (por ciclo)
+        --i             : índice de la letra para el stagger
+    */
+    .v3d-loader-letter{
+      display: inline-block;
+      transform-origin: center bottom;
+      /* parámetros por defecto (se pueden ajustar) */
+      --jump-duration: 0.9s;
+      --cycle-delay: 0.6s;
+      --start-delay: 0.35s;
+      /* duración total del ciclo = salto visible + pausa entre ciclos */
+      animation-duration: calc(var(--jump-duration) + var(--cycle-delay));
+      animation-name: v3d-jump;
+      animation-timing-function: cubic-bezier(.2,.8,.2,1);
+      animation-iteration-count: infinite;
+      animation-fill-mode: both;
+      /* stagger por letra + delay inicial antes de empezar la primera iteración */
+      animation-delay: calc(var(--start-delay) + (var(--i, 0) * 0.12s));
+      will-change: transform;
+      /* avoid text selection while loading */
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* "Jump and fall" keyframes con tiempo de espera (retardo) incorporado:
+       - la porción inicial (0% hasta ~12%) es la preparación/idle,
+       - luego el salto (hasta ~30%),
+       - aterrizaje/overshoot (~50%),
+       - y luego se mantiene en baseline hasta el final del ciclo (pausa).
+    */
+    @keyframes v3d-jump{
+      0%   { transform: translateY(0); }
+      12%  { transform: translateY(0); }          /* pequeña preparación */
+      30%  { transform: translateY(-36px); }      /* pico del salto */
+      50%  { transform: translateY(8px); }        /* overshoot / caída */
+      65%  { transform: translateY(0); }          /* regreso a baseline */
+      100% { transform: translateY(0); }          /* pausa hasta el siguiente ciclo */
+    }
+
+    /* Clase para forzar pausa inmediata de las letras (usada antes del fade) */
+    .v3d-loader-paused .v3d-loader-letter {
+      animation-play-state: paused !important;
+    }
+
+    /* Clase que activa el fade-out (solo opacidad; visibility se ajusta desde JS tras la transición) */
+    .v3d-loader-fade {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Small accessibility improvement on reduced-motion preference */
+    @media (prefers-reduced-motion: reduce) {
+      .v3d-loader-letter {
+        animation: none;
+        transform: translateY(0) !important;
+      }
+    }
+  </style>
+  <!-- ===== end loader styles ===== -->
+
 </head>
 
 <body>
 
+  <!-- ===== Loader HTML (añadido) ===== -->
+  <div id="v3d-loader" aria-hidden="true">
+    <div class="v3d-loader-inner">
+      <div class="v3d-loader-word" role="img" aria-label="Metso">
+        <span class="v3d-loader-letter" style="--i:0">M</span>
+        <span class="v3d-loader-letter" style="--i:1">e</span>
+        <span class="v3d-loader-letter" style="--i:2">t</span>
+        <span class="v3d-loader-letter" style="--i:3">s</span>
+        <span class="v3d-loader-letter" style="--i:4">o</span>
+      </div>
+    </div>
+  </div>
+  <!-- ===== end loader HTML ===== -->
+
   <div id="v3d-container">
     <div id="fullscreen-button" class="fullscreen-button fullscreen-open" title="Toggle fullscreen mode"></div>
   </div>
+
+  <!-- ===== Script que escucha / envuelve la llamada v3d.puzzles.procedures["inicio"](); (mejorado) ===== -->
+  <script>
+    (function(){
+      var MAX_TRIES = 200; // hasta ~20s de espera
+      var tries = 0;
+      var pollInterval = 100;
+      var installed = false;
+      var loaderHidden = false;
+
+      function hideLoaderOnce(){
+        if (loaderHidden) return;
+        loaderHidden = true;
+
+        var loader = document.getElementById('v3d-loader');
+        if (!loader) return;
+
+        // Pausar las letras antes del fade para evitar "saltos" extra
+        loader.classList.add('v3d-loader-paused');
+
+        // Forzar reflow
+        void loader.offsetWidth;
+
+        // Añadir clase que inicia fade
+        loader.classList.add('v3d-loader-fade');
+
+        // Cuando termine la transición de opacidad, eliminar/ocultar definitivamente
+        var onTransitionEnd = function(e){
+          if (e.propertyName === 'opacity') {
+            try {
+              loader.removeEventListener('transitionend', onTransitionEnd);
+            } catch(_) {}
+            // esconder completamente y remover del flujo para que no bloquee nada
+            loader.setAttribute('aria-hidden', 'true');
+            loader.style.visibility = 'hidden';
+            // colocamos z-index bajo para asegurar que no cubra nada
+            loader.style.zIndex = '-1';
+            // remover del DOM para limpiar (opcional)
+            if (loader.parentNode) {
+              try { loader.parentNode.removeChild(loader); } catch(_) {}
+            }
+          }
+        };
+        loader.addEventListener('transitionend', onTransitionEnd);
+
+        // En caso de que transitionend no dispare (navegadores raros), forzamos una limpieza a los 1s
+        setTimeout(function(){
+          var l = document.getElementById('v3d-loader');
+          if (l) {
+            l.setAttribute('aria-hidden', 'true');
+            l.style.visibility = 'hidden';
+            l.style.zIndex = '-1';
+            if (l.parentNode) try { l.parentNode.removeChild(l); } catch(_) {}
+          }
+        }, 1200);
+      }
+
+      function wrapExistingFunction(proc){
+        try {
+          var existing = proc["inicio"];
+          if (typeof existing === 'function' && !existing.__v3d_wrapped) {
+            var orig = existing;
+            var wrapper = function(){
+              try { orig.apply(this, arguments); } catch(e){ console.error("Error en inicio (orig):", e); }
+              // ocultar loader una vez se ejecute inicio
+              hideLoaderOnce();
+            };
+            wrapper.__v3d_wrapped = true;
+            // reasignar la función envuelta
+            try { proc["inicio"] = wrapper; } catch(e){
+              // si no se puede reasignar (propiedad no configurable), intentar definirla
+              Object.defineProperty(proc, "inicio", {
+                configurable: true,
+                enumerable: true,
+                writable: true,
+                value: wrapper
+              });
+            }
+            return true;
+          }
+        } catch(e){}
+        return false;
+      }
+
+      function installInterceptorOnFutureAssignment(proc){
+        // Si la propiedad ya existe como accesible pero no es función, o no está aún definida,
+        // interceptamos la asignación futura usando defineProperty
+        try {
+          var descriptor = Object.getOwnPropertyDescriptor(proc, "inicio");
+          if (descriptor && descriptor.configurable === false) {
+            // no configurable => intentar envolver si es función ya (handled earlier)
+            return;
+          }
+
+          var currentValue = proc["inicio"];
+          var saved = currentValue;
+
+          Object.defineProperty(proc, "inicio", {
+            configurable: true,
+            enumerable: true,
+            get: function(){
+              return saved;
+            },
+            set: function(fn){
+              if (typeof fn === 'function') {
+                // crear wrapper que llama la función asignada y oculta loader
+                var wrapped = function(){
+                  try { fn.apply(this, arguments); } catch(e){ console.error("Error en inicio (set):", e); }
+                  hideLoaderOnce();
+                };
+                wrapped.__v3d_wrapped = true;
+                saved = wrapped;
+              } else {
+                saved = fn;
+              }
+            }
+          });
+          return true;
+        } catch(e){
+          return false;
+        }
+      }
+
+      function tryInstall(){
+        tries++;
+        if (!window.v3d || !v3d.puzzles || !v3d.puzzles.procedures) {
+          if (tries > MAX_TRIES) {
+            clearInterval(intervalId);
+          }
+          return;
+        }
+        var proc = v3d.puzzles.procedures;
+
+        // 1) si ya existe una función, envolverla
+        var wrappedNow = wrapExistingFunction(proc);
+
+        // 2) interceptar futuras asignaciones (por si el autor asigna inicio más tarde)
+        var intercepted = installInterceptorOnFutureAssignment(proc);
+
+        if (wrappedNow || intercepted) {
+          installed = true;
+          clearInterval(intervalId);
+        } else {
+          // si no pudo instalar (propiedad no configurable o error), stop después de intentos
+          if (tries > MAX_TRIES) clearInterval(intervalId);
+        }
+      }
+
+      // Si v3d ya está listo, intentamos instalar inmediatamente; si no, poll
+      var intervalId = setInterval(tryInstall, pollInterval);
+      // Intento inmediato
+      tryInstall();
+
+      // Safety: si por alguna razón nadie llama a inicio pero quieres permitir desaparecer el loader
+      // después de N segundos (por ejemplo 20s), puedes descomentar la línea siguiente.
+      // setTimeout(hideLoaderOnce, 20000);
+
+    })();
+  </script>
+  <!-- ===== end install hook ===== -->
+
 </body>
 
 </html>

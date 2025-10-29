@@ -17,7 +17,7 @@ import("../js/distancia.js");//Distancia de dibujado de la camara
 //import("../js/escalaCamara.js");//POV camara
 import("../js/camara.js");
 // import("../js/person.js");
-import("../js/LimiteSuelo.js");
+// import("../js/LimiteSuelo.js");
 import("../js/zoomCamara.js");//Zoom de la camara MAXIMO
 
 // import("../js/CamaraLibre.js");
@@ -36,7 +36,8 @@ import("../js/Proceso/Proceso1.js");
 
 import("../js/Proceso/Proceso Ondas.js");
 // import("../js/Proceso/ProcesoC3.js");
-
+import("../js/Proceso/BotonLibre.js");
 
 //Terminado///////////////////////////////////////////////////////////////////////////////////////////
 v3d.puzzles.procedures["inicio"]();
+

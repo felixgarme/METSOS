@@ -1,6 +1,6 @@
 <xml xmlns="http://www.w3.org/1999/xhtml">
   <tab name="Init" type="InitTab" active="false" scrollx="1722.75" scrolly="0.25" scale="0.9"></tab>
-  <tab name="General" type="CommonTab" active="true" scrollx="918.75" scrolly="374" scale="1">
+  <tab name="General" type="CommonTab" active="true" scrollx="566.25" scrolly="-119.75" scale="1">
     <block xmlns="https://developers.google.com/blockly/xml" type="connectorSlot" id="-iJ-sL6.kR)?;Mpp(@2j" x="-562" y="-152">
       <statement name="DO">
         <block type="execScript" id="#kQNJYlTDnyY..(9!!Nn">
@@ -119,7 +119,7 @@
         </block>
       </statement>
     </block>
-    <block xmlns="https://developers.google.com/blockly/xml" type="procedures_defnoreturn" id="4iT;w8]li-X^rtaqfc7C" x="225" y="-113">
+    <block xmlns="https://developers.google.com/blockly/xml" type="procedures_defnoreturn" id="4iT;w8]li-X^rtaqfc7C" x="211" y="-94">
       <field name="NAME">posGeneral</field>
       <comment pinned="false" h="80" w="160">Describe this function...</comment>
       <statement name="STACK">
@@ -144,7 +144,7 @@
         </block>
       </statement>
     </block>
-    <block xmlns="https://developers.google.com/blockly/xml" type="procedures_defnoreturn" id="Pi--i9sJ?N(4.IfAp0fe" x="224" y="73">
+    <block xmlns="https://developers.google.com/blockly/xml" type="procedures_defnoreturn" id="Pi--i9sJ?N(4.IfAp0fe" x="214" y="-9">
       <field name="NAME">ModoP1</field>
       <comment pinned="false" h="80" w="160">Describe this function...</comment>
       <statement name="STACK">
@@ -158,7 +158,7 @@
         </block>
       </statement>
     </block>
-    <block xmlns="https://developers.google.com/blockly/xml" type="procedures_defnoreturn" id=";2iSH?81M+d*%duWhshs" x="218" y="265">
+    <block xmlns="https://developers.google.com/blockly/xml" type="procedures_defnoreturn" id=";2iSH?81M+d*%duWhshs" x="213" y="129">
       <field name="NAME">ModoP1off</field>
       <comment pinned="false" h="80" w="160">Describe this function...</comment>
       <statement name="STACK">
@@ -172,8 +172,40 @@
         </block>
       </statement>
     </block>
+    <block xmlns="https://developers.google.com/blockly/xml" type="procedures_defnoreturn" id="ZM@e{*U[YE=:xmh~gd=M" x="226" y="274">
+      <field name="NAME">VistaLibre</field>
+      <comment pinned="false" h="80" w="160">Describe this function...</comment>
+      <statement name="STACK">
+        <block type="execScript" id="^f:Q.pt4.4xU)GBT=sV=">
+          <value name="TEXT">
+            <shadow type="textMultiline" id="1ecF~?IqG]lE3$KfAmE,">
+              <field name="HIGHLIGHT_MODE">javascript</field>
+              <field name="TEXT" editor-height="1" editor-width="520">// CORRECCIÓN: Llama al método usando el objeto&amp;#10;window.LookOnlyControls.TeclasOn();</field>
+            </shadow>
+          </value>
+        </block>
+      </statement>
+    </block>
+    <block xmlns="https://developers.google.com/blockly/xml" type="procedures_defnoreturn" id="/Ih?Nxwk~6RrlOGr[!gB" x="-551" y="412">
+      <field name="NAME">inicio</field>
+      <comment pinned="false" h="80" w="160">Describe this function...</comment>
+    </block>
+    <block xmlns="https://developers.google.com/blockly/xml" type="procedures_defnoreturn" id="|A2:ZpY@XSJC]fE)ISv:" x="228" y="397">
+      <field name="NAME">VistaLibreOff</field>
+      <comment pinned="false" h="80" w="160">Describe this function...</comment>
+      <statement name="STACK">
+        <block type="execScript" id="Nt/P}CIzP-+ccM@{zy:n">
+          <value name="TEXT">
+            <shadow type="textMultiline" id="D4d):Dx6/Id?hMxQ#}z2">
+              <field name="HIGHLIGHT_MODE">javascript</field>
+              <field name="TEXT" editor-height="1" editor-width="520">// CORRECCIÓN: Llama al método usando el objeto&amp;#10;window.LookOnlyControls.TeclasOff();</field>
+            </shadow>
+          </value>
+        </block>
+      </statement>
+    </block>
   </tab>
-  <tab name="Zonas" type="CommonTab" active="false" scrollx="1969" scrolly="620.5" scale="1">
+  <tab name="Zonas" type="CommonTab" active="false" scrollx="2197.5" scrolly="604.25" scale="1">
     <block xmlns="https://developers.google.com/blockly/xml" type="procedures_defnoreturn" id="S]5mhyN=oIxPxxv?.mZn" x="-1091" y="-666">
       <field name="NAME">zoneA</field>
       <comment pinned="false" h="80" w="160">Describe this function...</comment>
@@ -360,7 +392,7 @@
         </block>
       </statement>
     </block>
-    <block xmlns="https://developers.google.com/blockly/xml" type="procedures_defnoreturn" id="k1KvB(u*h58IqG(}.TZl" x="-1079" y="-35">
+    <block xmlns="https://developers.google.com/blockly/xml" type="procedures_defnoreturn" id="k1KvB(u*h58IqG(}.TZl" x="-1082" y="95">
       <field name="NAME">VB</field>
       <comment pinned="false" h="80" w="160">Describe this function...</comment>
       <statement name="STACK">
@@ -379,7 +411,7 @@
         </block>
       </statement>
     </block>
-    <block xmlns="https://developers.google.com/blockly/xml" type="procedures_defnoreturn" id="q}Q@u:z3E6.]ULsD]eci" x="-1083" y="182">
+    <block xmlns="https://developers.google.com/blockly/xml" type="procedures_defnoreturn" id="q}Q@u:z3E6.]ULsD]eci" x="-1072" y="332">
       <field name="NAME">VC</field>
       <comment pinned="false" h="80" w="160">Describe this function...</comment>
       <statement name="STACK">
@@ -438,11 +470,11 @@
       </statement>
     </block>
   </tab>
-  <tab name="A" type="CommonTab" active="false" scrollx="1677.5" scrolly="-220.75" scale="1">
+  <tab name="A" type="CommonTab" active="false" scrollx="1567.6992827391555" scrolly="943.8054989998075" scale="1">
     <variables xmlns="https://developers.google.com/blockly/xml">
       <variable id="^bXA_D1sXik#-XgZ#8/_">A7una</variable>
     </variables>
-    <block xmlns="https://developers.google.com/blockly/xml" type="procedures_defnoreturn" id="1Z~gKUcu+SN/]}S?~/mD" x="-886" y="-891">
+    <block xmlns="https://developers.google.com/blockly/xml" type="procedures_defnoreturn" id="1Z~gKUcu+SN/]}S?~/mD" x="-895" y="-892">
       <field name="NAME">vA1</field>
       <comment pinned="false" h="80" w="160">Describe this function...</comment>
       <statement name="STACK">
@@ -494,6 +526,16 @@
                           <field name="NUM">3</field>
                         </shadow>
                       </value>
+                      <statement name="DO">
+                        <block type="execScript" id="Az3#K#N{J$Rc0!lQ.i`~">
+                          <value name="TEXT">
+                            <shadow type="textMultiline" id="H6]]8#(UbhmoT(hPcr]=">
+                              <field name="HIGHLIGHT_MODE">javascript</field>
+                              <field name="TEXT" editor-height="1" editor-width="996.25">mostrarBotonLibre();</field>
+                            </shadow>
+                          </value>
+                        </block>
+                      </statement>
                     </block>
                   </statement>
                 </block>
@@ -935,7 +977,7 @@
       </statement>
     </block>
   </tab>
-  <tab name="B" type="CommonTab" active="false" scrollx="973.25" scrolly="954" scale="1">
+  <tab name="B" type="CommonTab" active="false" scrollx="973.5" scrolly="695.5" scale="1">
     <variables xmlns="https://developers.google.com/blockly/xml">
       <variable id="*@?H5aQIlW.@g228RQ~y">VB6 obj</variable>
     </variables>
@@ -1794,7 +1836,7 @@
       </statement>
     </block>
   </tab>
-  <tab name="C" type="CommonTab" active="false" scrollx="789.5995330810547" scrolly="-742.25" scale="1">
+  <tab name="C" type="CommonTab" active="false" scrollx="864.5995330810547" scrolly="-1717.25" scale="1">
     <block xmlns="https://developers.google.com/blockly/xml" type="procedures_defnoreturn" id="O`G!1)@AamH%zEX++*dz" x="-320" y="488">
       <field name="NAME">vC1</field>
       <comment pinned="false" h="80" w="160">Describe this function...</comment>
