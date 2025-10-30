@@ -3,10 +3,11 @@
 <!-- __V3D_TEMPLATE__ - template-based file; delete this line to prevent this file from being updated -->
 <html lang="en">
 <head>
-  <title>Verge3D Web Interactive</title>
+  <title>Anglo American</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-
+  <link rel="shortcut icon" href="../img/logo.png">
+  <link rel="icon" type="image/png" href="../img/logo.png">
   <!-- Search Engines -->
   <meta name="description" content="Interactive 3D Web application made with Verge3D. Immerse yourself in amazing graphics experience offered by state-of-the art WebGL and HTML5 technologies.">
   <!-- Twitter -->
@@ -24,9 +25,7 @@
 
   <!-- favicons -->
   <link rel="apple-touch-icon" sizes="180x180" href="media/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="48x48" href="media/favicon-48x48.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="media/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="media/favicon-16x16.png">
+
   <link rel="manifest" href="media/manifest.json">
   <link rel="mask-icon" href="media/safari-pinned-tab.svg" color="#0048a5">
   <meta name="theme-color" content="#ffffff">
@@ -70,7 +69,7 @@
       justify-content: center;
       font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
       font-weight: 700;
-      color: #000; /* letras negras */
+      color: #031794;
       letter-spacing: 1px;
       /* size responsive: min 28px, max 96px */
       font-size: clamp(28px, 6vw, 96px);
@@ -147,12 +146,21 @@
   <!-- ===== Loader HTML (añadido) ===== -->
   <div id="v3d-loader" aria-hidden="true">
     <div class="v3d-loader-inner">
+      <img src="../img/logo.png" style="width: 150px; margin: 30px 30px -35px 0px;">
       <div class="v3d-loader-word" role="img" aria-label="Metso">
-        <span class="v3d-loader-letter" style="--i:0">M</span>
-        <span class="v3d-loader-letter" style="--i:1">e</span>
-        <span class="v3d-loader-letter" style="--i:2">t</span>
-        <span class="v3d-loader-letter" style="--i:3">s</span>
+        <span class="v3d-loader-letter" style="--i:0">A</span>
+        <span class="v3d-loader-letter" style="--i:1">n</span>
+        <span class="v3d-loader-letter" style="--i:2">g</span>
+        <span class="v3d-loader-letter" style="--i:3">l</span>
         <span class="v3d-loader-letter" style="--i:4">o</span>
+        <span class="v3d-loader-letter" style="--i:5">A</span>
+        <span class="v3d-loader-letter" style="--i:6">m</span>
+        <span class="v3d-loader-letter" style="--i:7">e</span>
+        <span class="v3d-loader-letter" style="--i:8">r</span>
+        <span class="v3d-loader-letter" style="--i:9">i</span>
+        <span class="v3d-loader-letter" style="--i:10">c</span>
+        <span class="v3d-loader-letter" style="--i:11">a</span>
+        <span class="v3d-loader-letter" style="--i:12">n</span>
       </div>
     </div>
   </div>
@@ -313,10 +321,6 @@
       var intervalId = setInterval(tryInstall, pollInterval);
       // Intento inmediato
       tryInstall();
-
-      // Safety: si por alguna razón nadie llama a inicio pero quieres permitir desaparecer el loader
-      // después de N segundos (por ejemplo 20s), puedes descomentar la línea siguiente.
-      // setTimeout(hideLoaderOnce, 20000);
 
     })();
   </script>

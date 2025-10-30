@@ -1,7 +1,7 @@
 // 1. Comprobar si los botones ya fueron creados
 if (!window.botonesVACreados) {
 
-  // A. Enlazar CSS externo (solo una vez)
+  // Enlazar CSS externo (solo una vez)
   const cssId = 'v3d-pro-button-styles';
   if (!document.getElementById(cssId)) {
     const link = document.createElement('link');
@@ -10,7 +10,7 @@ if (!window.botonesVACreados) {
     document.head.appendChild(link);
   }
 
-  // B. Añadir CSS interno para bloqueo visual (NUEVO)
+  // Añadir CSS interno para bloqueo visual
   const lockStyleId = 'v3d-lock-styles';
   if (!document.getElementById(lockStyleId)) {
     const style = document.createElement('style');
@@ -25,6 +25,37 @@ if (!window.botonesVACreados) {
           pointer-events: none !important;
           transition: opacity 0.2s ease !important;
       }
+
+      /* --- INICIO DE LA MODIFICACIÓN DE LA FLECHA --- */
+      .v3d-pro-button {
+          position: relative; /* Contexto para la flecha */
+          /* Asegurar que las transiciones JS y CSS coexistan */
+          /* (La transición específica se aplica en el JS) */
+      }
+
+      .v3d-pro-button.active {
+          /* Espacio a la derecha para la flecha */
+          padding-right: 30px !important; 
+      }
+
+      .v3d-pro-button::after {
+          content: '›'; /* Flecha */
+          position: absolute;
+          right: 10px; /* Posición de la flecha */
+          top: 50%;
+          transform: translateY(-50%) scale(0.8);
+          font-size: 1.8em;
+          font-weight: bold;
+          opacity: 0; /* Oculta por defecto */
+          transition: opacity 0.3s ease, transform 0.3s ease;
+          pointer-events: none; /* No interferir con clics */
+      }
+
+      .v3d-pro-button.active::after {
+          opacity: 1; /* Visible en el botón activo */
+          transform: translateY(-50%) scale(1);
+      }
+      /* --- FIN DE LA MODIFICACIÓN DE LA FLECHA --- */
     `;
     document.head.appendChild(style);
   }
@@ -34,9 +65,8 @@ if (!window.botonesVACreados) {
   window.v3dListOrder = ['VA', 'VB', 'VC']; // Asegúrate que coincida con tus listas
   window.v3dCurrentListIndex = 0;
 
-  // ⏱️ Variable global de bloqueo por delay
+  // Variable global de bloqueo por delay
   window.v3dClickBloqueado = false;
-  // MODIFICADO: 3000 milisegundos (3s)
   window.v3dClickDelay = 3000;
 
   // Crear lista genérica
@@ -73,19 +103,16 @@ if (!window.botonesVACreados) {
       b.dataset.listKey = k;
       if (i > state.nivelDesbloqueado) b.classList.add('disabled');
       b.onclick = () => {
-        // ⏱️ Anti-click rápido
         if (window.v3dClickBloqueado) {
           console.warn('Por favor, espera un momento antes de presionar otro botón.');
           return;
         }
         if (b.classList.contains('disabled')) return;
 
-        // MODIFICADO: Activar bloqueo visual
         window.v3dClickBloqueado = true;
         document.body.classList.add('v3d-buttons-locked');
         setTimeout(() => {
           window.v3dClickBloqueado = false;
-          // MODIFICADO: Desactivar bloqueo visual
           document.body.classList.remove('v3d-buttons-locked');
         }, window.v3dClickDelay);
 
@@ -94,7 +121,7 @@ if (!window.botonesVACreados) {
           v3d.puzzles.procedures[p]();
           console.log('Procedimiento:', p);
           window.desbloquearSiguienteNivelV3D(k, i);
-          window.actualizarEstadoBotonesV3D(k, i);
+          window.actualizarEstadoBotonesV3D(k, i); // <-- Llama a la función actualizada
         } else {
           console.warn(`No se encontró el procedimiento "${p}"`);
         }
@@ -102,7 +129,7 @@ if (!window.botonesVACreados) {
       cont.appendChild(b);
     });
 
-    // 🔹 Botones de navegación con texto
+    // Botones de navegación con texto
     const next = document.createElement('button'),
       prev = document.createElement('button');
     next.id = idN;
@@ -114,16 +141,13 @@ if (!window.botonesVACreados) {
     prev.textContent = 'Anterior';
     next.style.display = prev.style.display = 'none';
 
-    // ⏱️ Anti-spam también en navegación
     next.onclick = () => {
       if (window.v3dClickBloqueado) return;
       
-      // MODIFICADO: Activar bloqueo visual
       window.v3dClickBloqueado = true;
       document.body.classList.add('v3d-buttons-locked');
       setTimeout(() => {
         window.v3dClickBloqueado = false;
-        // MODIFICADO: Desactivar bloqueo visual
         document.body.classList.remove('v3d-buttons-locked');
       }, window.v3dClickDelay);
       
@@ -132,12 +156,10 @@ if (!window.botonesVACreados) {
     prev.onclick = () => {
       if (window.v3dClickBloqueado) return;
       
-      // MODIFICADO: Activar bloqueo visual
       window.v3dClickBloqueado = true;
       document.body.classList.add('v3d-buttons-locked');
       setTimeout(() => {
         window.v3dClickBloqueado = false;
-        // MODIFICADO: Desactivar bloqueo visual
         document.body.classList.remove('v3d-buttons-locked');
       }, window.v3dClickDelay);
       
@@ -164,12 +186,36 @@ if (!window.botonesVACreados) {
     idx ??= s.nivelDesbloqueado;
     if (idx >= btns.length) idx = btns.length - 1;
 
+    // Define el factor de atenuación. 
+    // 0.25 significa que desaparece a 4 botones de distancia (1 / 0.25 = 4)
+    const FADE_STEP = 0.25; 
+
     btns.forEach((b, i) => {
       b.classList.remove('disabled', 'completed', 'active');
+      // Limpiar el padding por si acaso (aunque el CSS .active lo maneja)
+      b.style.paddingRight = ''; 
+
       if (i < s.nivelDesbloqueado) b.classList.add('completed');
       else if (i > s.nivelDesbloqueado) { b.classList.add('disabled'); done = false; }
       else done = false;
       if (i === idx) b.classList.add('active');
+
+      // --- Lógica de transparencia basada en la distancia ---
+      
+      // MODIFICADO: Asegurar que la transición incluya padding-right
+      b.style.transition = 'opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease, padding-right 0.3s ease'; 
+
+      // Calcular la distancia al botón activo (idx)
+      const distance = Math.abs(i - idx);
+      
+      // Calcular la opacidad. 
+      // Math.max(0, ...) asegura que la opacidad no sea negativa.
+      const opacity = Math.max(0, 1 - (distance * FADE_STEP));
+
+      b.style.opacity = opacity.toString();
+      
+      // Ocultar completamente los botones que tienen opacidad 0
+      b.style.visibility = (opacity <= 0) ? 'hidden' : 'visible';
     });
 
     const act = btns[idx];
@@ -179,7 +225,7 @@ if (!window.botonesVACreados) {
       c.style.transform = `translateY(-${off + act.offsetHeight / 2}px)`;
     }
 
-    // 🔹 Mostrar “Continuar” solo si hay siguiente lista
+    // Mostrar “Continuar” solo si hay siguiente lista
     const curIndex = window.v3dListOrder.indexOf(k);
     const hasNext = curIndex < window.v3dListOrder.length - 1;
     n.style.display = done && hasNext ? 'flex' : 'none';
@@ -208,20 +254,36 @@ if (!window.botonesVACreados) {
     if (show) {
       c.style.display = 'flex';
       c.style.flexDirection = 'column';
-      window.actualizarEstadoBotonesV3D(k);
+      
+      // Aplicar estado inicial (incluida transparencia)
+      window.actualizarEstadoBotonesV3D(k); 
 
-      // 🔹 Efecto delay secuencial
+      // Efecto delay secuencial al aparecer
       [...c.getElementsByClassName('v3d-pro-button')].forEach((b, i) => {
+        // La opacidad y transformación iniciales serán sobrescritas
+        // por 'actualizarEstadoBotonesV3D', pero mantenemos el delay.
+        
+        // Guardamos la opacidad y visibilidad calculadas
+        const targetOpacity = b.style.opacity;
+        const targetVisibility = b.style.visibility;
+
+        // Forzamos el estado inicial para la animación
         b.style.opacity = '0';
+        b.style.visibility = 'hidden'; // Empezar oculto
         b.style.transform = 'translateY(10px)';
+        
         setTimeout(() => {
-          b.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-          b.style.opacity = '1';
+          // MODIFICADO: Asegurar que la transición incluya padding-right
+          b.style.transition = 'opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease, padding-right 0.3s ease';
+          // Animamos al estado calculado por 'actualizarEstadoBotonesV3D'
+          b.style.opacity = targetOpacity;
+          b.style.visibility = targetVisibility;
           b.style.transform = 'translateY(0)';
         }, i * 120);
       });
 
-      setTimeout(() => window.actualizarEstadoBotonesV3D(k), 500);
+      // Re-aplicar estado por si acaso (puede no ser necesario)
+      // setTimeout(() => window.actualizarEstadoBotonesV3D(k), 500);
     } else {
       c.style.display = n.style.display = p.style.display = 'none';
     }
@@ -233,7 +295,6 @@ if (!window.botonesVACreados) {
       nxt = window.v3dListOrder[window.v3dCurrentListIndex + 1];
     if (!nxt) return;
 
-    // MODIFICADO: Llamar al procedimiento con el nombre de la lista destino (nxt)
     if (window.v3d?.puzzles?.procedures?.[nxt]) {
       v3d.puzzles.procedures[nxt]();
       console.log(`Procedimiento: ${nxt} (next)`);
@@ -246,29 +307,17 @@ if (!window.botonesVACreados) {
     window.v3dCurrentListIndex++;
   };
 
-  // ***** CAMBIO AQUÍ *****
   window.prevV3DList = function () {
     const cur = window.v3dListOrder[window.v3dCurrentListIndex],
       prv = window.v3dListOrder[window.v3dCurrentListIndex - 1];
     if (!prv) return;
 
-    // MODIFICADO: Ya no se llama al procedimiento al ir a "Anterior".
-    // Se ha comentado el bloque que lo hacía.
-    /*
-    if (window.v3d?.puzzles?.procedures?.[prv]) {
-      v3d.puzzles.procedures[prv]();
-      console.log(`Procedimiento: ${prv} (prev)`);
-    } else {
-      console.warn(`No se encontró el procedimiento "${prv}"`);
-    }
-    */
-   console.log(`Volviendo a la lista: ${prv}`);
+    console.log(`Volviendo a la lista: ${prv}`);
 
     window.toggleBotonesV3D(cur, false);
     window.toggleBotonesV3D(prv, true);
     window.v3dCurrentListIndex--;
   };
-  // ***** FIN DEL CAMBIO *****
 
 
   // Cargar listas

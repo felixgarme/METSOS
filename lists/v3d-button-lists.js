@@ -10,6 +10,8 @@
       {texto:'Entrada',proc:'vA1'},
       {texto:'Lavado de gases',proc:'vA2'},
       {texto:'Tanques de Nash',proc:'vA3'},
+      {texto:'Tanques de Nash cartel',proc:'vA3b'},
+      {texto:'Zona de Ácido cartel',proc:'vA4b'},
       {texto:'Zona de Ácido',proc:'vA4'}
     ];
     window.createV3DButtonList('VA',botonesVA,{

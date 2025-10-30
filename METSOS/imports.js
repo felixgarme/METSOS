@@ -33,7 +33,6 @@ import("../js/crearTexto.js");//Raycaster para seleccionar objetos
 
 import("../js/Proceso/Proceso1.js");
 // import("../js/Proceso/ProcesoB2.js");
-
 import("../js/Proceso/Proceso Ondas.js");
 // import("../js/Proceso/ProcesoC3.js");
 import("../js/Proceso/BotonLibre.js");

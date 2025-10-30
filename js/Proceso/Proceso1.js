@@ -22,7 +22,7 @@ Object.assign(fogOverlay.style, {
 });
 document.body.appendChild(fogOverlay);
 
-// Animación de movimiento suave de las nubes (CSS)
+// Animación de nubes y animaciones de giro del botón
 var fogKeyframes = `
 @keyframes fogMove {
     0% { background-position: 0% 0%, 100% 100%, 50% 80%; }
@@ -30,15 +30,31 @@ var fogKeyframes = `
     100% { background-position: 100% 100%, 0% 0%, 60% 60%; }
 }
 @keyframes fogSimpsons {
+    0% { opacity: 1; transform: scale(1); filter: blur(0px); }
+    100% { opacity: 0; transform: scale(2); filter: blur(15px); }
+}
+
+/* Animación de giro para APARECER */
+@keyframes coinFlipIn {
     0% {
-        opacity: 1;
-        transform: scale(1);
-        filter: blur(0px);
+        transform: translate(-50%, -50%) scale(0.8) rotateY(-180deg);
+        opacity: 0;
     }
     100% {
+        transform: translate(-50%, -50%) scale(1) rotateY(0deg);
+        opacity: 1;
+    }
+}
+
+/* Animación de giro para DESAPARECER */
+@keyframes coinFlipOut {
+    0% {
+        transform: translate(-50%, -50%) scale(1) rotateY(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(0.8) rotateY(180deg);
         opacity: 0;
-        transform: scale(2);
-        filter: blur(15px);
     }
 }`;
 var fogStyle = document.createElement("style");
@@ -54,52 +70,54 @@ Object.assign(startButton.style, {
     position: "absolute",
     top: "50%",
     left: "50%",
-    transform: "translate(-50%, -50%) scale(0.9)",
+    // Estado inicial (coincide con el 0% de coinFlipIn)
+    transform: "translate(-50%, -50%) scale(0.8) rotateY(-180deg)",
     padding: "18px 50px",
     fontSize: "26px",
     fontFamily: "Montserrat, Arial, sans-serif",
     fontWeight: "bold",
-    color: "#007BFF",
-    background: "#ffffff",
-    border: "3px solid #007BFF",
-    borderRadius: "40px",
-    boxShadow: "0 0 25px rgba(0, 123, 255, 0.3)",
+    color: "#FFFFFF",
+    background: "#031794",
+    border: "none", // Sin bordes
+    borderRadius: "90px",
+    boxShadow: "none",
     cursor: "pointer",
-    transition: "all 0.3s ease",
+    transition: "background 0.3s ease, transform 0.3s ease", // Transición para el hover
     zIndex: "9999",
-    opacity: "0"
+    opacity: "0" // Empieza invisible
 });
 
 // Agregar al documento
 document.body.appendChild(startButton);
 
-// Animación de aparición del botón
+// Animación de aparición del botón (con giro)
 setTimeout(() => {
-    startButton.style.opacity = "1";
-    startButton.style.transform = "translate(-50%, -50%) scale(1)";
+    // Aplica la animación "coinFlipIn". 'forwards' hace que mantenga el estado final.
+    startButton.style.animation = "coinFlipIn 0.8s ease-out forwards";
 }, 300);
 
-// Efecto hover
+// Efecto hover (SIMPLE: escala y color)
 startButton.addEventListener("mouseenter", () => {
-    startButton.style.transform = "translate(-50%, -50%) scale(1.1)";
-    startButton.style.background = "#007BFF";
-    startButton.style.color = "#ffffff";
-    startButton.style.boxShadow = "0 0 35px rgba(0, 123, 255, 0.6)";
+    // Estado final de la animación es scale(1) rotateY(0deg)
+    startButton.style.transform = "translate(-50%, -50%) scale(1.05) rotateY(0deg)";
+    startButton.style.background = "#03169472"; 
 });
 startButton.addEventListener("mouseleave", () => {
-    startButton.style.transform = "translate(-50%, -50%) scale(1)";
-    startButton.style.background = "#ffffff";
-    startButton.style.color = "#007BFF";
-    startButton.style.boxShadow = "0 0 25px rgba(0, 123, 255, 0.3)";
+    // Vuelve al estado final de la animación de entrada
+    startButton.style.transform = "translate(-50%, -50%) scale(1) rotateY(0deg)";
+    startButton.style.background = "#031794";
 });
 
 // === Acción al presionar ===
 startButton.addEventListener("click", () => {
-    // Animación de salida del botón
-    startButton.style.opacity = "0";
-    startButton.style.transform = "translate(-50%, -50%) scale(0.8)";
+    // Desactiva los listeners de hover para evitar conflictos
+    startButton.onmouseenter = null;
+    startButton.onmouseleave = null;
+
+    // Animación de salida (con giro)
+    startButton.style.animation = "coinFlipOut 0.8s ease-in forwards";
     
-    // Efecto de nubes "Los Simpson" (se abren y disuelven)
+    // Efecto de nubes "Los Simpson"
     fogOverlay.style.animation = "fogSimpsons 2.5s ease forwards";
 
     // Llamar al procedimiento de Puzzles y limpiar

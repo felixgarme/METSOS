@@ -11,24 +11,23 @@
   display: none;
   flex-direction: column;
   gap: 10px;
-  transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), 
+              left 0.3s ease, 
+              gap 0.3s ease; /* Añadida transición para 'left' y 'gap' */
   z-index: 100;
 }
 
 /* 🔹 Posiciones individuales */
 .miContenedorBotones-VA { top: 50vh; }
 .miContenedorBotones-VB { top: 50vh; }
-/* ----- NUEVO ----- */
 .miContenedorBotones-VC { top: 50vh; }
-/* ----- FIN DE LO NUEVO ----- */
 
 
 /* 🔹 Botones principales */
 .v3d-pro-button {
   background-color: #fff;
-  color: #333;
-  border: 2px solid transparent;
-  /* border-radius: 6px;               🔹 Rectangulares */
+  color: #031795;
+  border: 0.3px solid #6C6C6C; /* Modificado el color del borde */
   padding: 12px 18px;
   font-size: 15px;
   font-family: Arial, sans-serif;
@@ -36,13 +35,29 @@
   cursor: pointer;
   text-align: center;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  transition: all 0.25s ease-in-out;
   position: relative;
   min-width: 160px;
   max-width: 220px;
+  border-radius: 16px;
+  
+  /* Transición actualizada */
+  transition: background-color 0.25s ease-in-out, 
+              color 0.25s ease-in-out, 
+              border-color 0.25s ease-in-out,
+              box-shadow 0.25s ease-in-out, 
+              transform 0.3s ease,
+              opacity 0.3s ease, 
+              visibility 0.3s ease, 
+              padding 0.3s ease, /* 'padding-right' cambiado a 'padding' */
+              font-size 0.3s ease,
+              min-width 0.3s ease,
+              max-width 0.3s ease;
+  
+  /* Animación de aparición */
+  animation: fadeInSlideUp 0.3s ease forwards;
 }
 
-/* 🔹 Hover / Active */
+/* 🔹 Hover / Active (Clic) */
 .v3d-pro-button:not(.disabled):not(.active):hover {
   background-color: #f7f9fc;
   transform: translateY(-2px);
@@ -55,24 +70,50 @@
 
 /* 🔹 Estados */
 .v3d-pro-button.disabled {
-  background-color: #f0f0f0;
+  /* Corregido el typo: #f0f0f083 -> #f0f0f0 */
+  background-color: #f0f0f0; 
   color: #999;
   cursor: not-allowed;
   opacity: 0.7;
   filter: blur(0.5px);
 }
 .v3d-pro-button.completed {
-  background-color: #eaffea;
-  border-color: #5cb85c;
-  color: #3c763d;
+  background-color: #031795;
+  border-color: #031795;
+;
+  color: #ffffff;
 }
 .v3d-pro-button.active {
-  /* border-color: #007bff; */
+  border-color: #007bff;
   transform: scale(1.03);
   box-shadow: 0 6px 16px rgba(0,123,255,0.2);
   opacity: 1;
   filter: none;
+  
+  /* Espacio para la flecha */
+  padding-right: 30px;
 }
+
+/* Flecha para el botón activo */
+.v3d-pro-button::after {
+  content: '<';
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%) scale(0.8);
+  font-size: 1.8em;
+  font-weight: bold;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease, right 0.3s ease, font-size 0.3s ease;
+  pointer-events: none;
+  color: red; /* Added red color */
+}
+
+.v3d-pro-button.active::after {
+  opacity: 1;
+  transform: translateY(-50%) scale(1);
+}
+
 
 /* 🔹 Botones de navegación (Continuar / Anterior) */
 .v3d-next-button, .v3d-prev-button {
@@ -81,19 +122,24 @@
   padding: 10px 20px;
   min-width: 120px;
   height: auto;
-  background-color: #ffffff;
-  /* border: 2px solid #007bff; */
-  /* border-radius: 8px; */
+  background-color: #000000;
   font-size: 15px;
   font-weight: 600;
   font-family: Arial, sans-serif;
-  color: #007bff;
+  color: #ffffff;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   display: none;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.25s ease;
+  /* Transición actualizada para responsive */
+  transition: all 0.25s ease, 
+              padding 0.3s ease,
+              font-size 0.3s ease,
+              min-width 0.3s ease,
+              bottom 0.3s ease,
+              left 0.3s ease,
+              right 0.3s ease;
   z-index: 101;
 }
 
@@ -101,7 +147,7 @@
 .v3d-prev-button { left: 20px; }
 
 .v3d-next-button:hover, .v3d-prev-button:hover {
-  background-color: #007bff;
+  background-color: #000000a0;
   color: #fff;
   transform: scale(1.05);
   box-shadow: 0 6px 18px rgba(0,0,0,0.25);
@@ -111,7 +157,44 @@
   transform: scale(0.98);
 }
 
-/* 🔹 Animación de aparición */
-.v3d-pro-button {
-  animation: fadeInSlideUp 0.3s ease forwards;
+
+/* ----- INICIO: Media Query para Responsividad ----- */
+@media (max-width: 900px) {
+
+  /* Contenedor principal: más cerca del borde y menos espacio */
+  .miContenedorBotones {
+    left: 20px; /* 40px -> 20px */
+    gap: 7px; /* 10px * 0.7 */
+  }
+
+  /* Botones principales: ~30% más pequeños */
+  .v3d-pro-button {
+    font-size: 11px; /* 15px * 0.7 ≈ 10.5px */
+    padding: 8px 13px; /* 12px*0.7 ≈ 8.4px, 18px*0.7 ≈ 12.6px */
+    min-width: 112px; /* 160px * 0.7 */
+    max-width: 154px; /* 220px * 0.7 */
+  }
+
+  /* Ajustar padding de flecha para el botón activo */
+  .v3d-pro-button.active {
+    padding-right: 21px; /* 30px * 0.7 */
+  }
+
+  /* Ajustar la flecha */
+  .v3d-pro-button::after {
+    right: 7px; /* 10px * 0.7 */
+    font-size: 1.3em; /* 1.8em * 0.7 ≈ 1.26em */
+  }
+
+  /* Botones de navegación: ~30% más pequeños y reposicionados */
+  .v3d-next-button, .v3d-prev-button {
+    padding: 7px 14px; /* 10px*0.7, 20px*0.7 */
+    font-size: 11px; /* 15px * 0.7 ≈ 10.5px */
+    min-width: 84px; /* 120px * 0.7 */
+    bottom: 14px; /* 20px * 0.7 */
+  }
+  
+  .v3d-next-button { right: 14px; /* 20px * 0.7 */ }
+  .v3d-prev-button { left: 14px; /* 20px * 0.7 */ }
 }
+/* ----- FIN: Media Query ----- */
