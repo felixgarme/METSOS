@@ -482,7 +482,7 @@
           <value name="TEXT">
             <shadow type="textMultiline" id="bu3Ae0Ip]PR$ecoh]}Y/">
               <field name="HIGHLIGHT_MODE">javascript</field>
-              <field name="TEXT" editor-height="5" editor-width="996.25">crearCardModulo(&amp;#10;  "Estaciones de Lavaojos",&amp;#10;  "../img/A.jpeg",&amp;#10;  { duration: 3000 }&amp;#10;);</field>
+              <field name="TEXT" editor-height="5" editor-width="996.25">crearCardModulo(&amp;#10;  "Estaciones de Lavaojos",&amp;#10;  "../img/A.jpeg",&amp;#10;  { duration: 25000 }&amp;#10;);</field>
             </shadow>
           </value>
           <next>

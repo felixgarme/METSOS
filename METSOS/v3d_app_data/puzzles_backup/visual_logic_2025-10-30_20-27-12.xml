@@ -470,7 +470,7 @@
       </statement>
     </block>
   </tab>
-  <tab name="A" type="CommonTab" active="true" scrollx="1320.5" scrolly="1222.75" scale="1">
+  <tab name="A" type="CommonTab" active="true" scrollx="1561.75" scrolly="-723.5" scale="1">
     <variables xmlns="https://developers.google.com/blockly/xml">
       <variable id="^bXA_D1sXik#-XgZ#8/_">A7una</variable>
     </variables>
@@ -482,7 +482,7 @@
           <value name="TEXT">
             <shadow type="textMultiline" id="bu3Ae0Ip]PR$ecoh]}Y/">
               <field name="HIGHLIGHT_MODE">javascript</field>
-              <field name="TEXT" editor-height="5" editor-width="996.25">crearCardModulo(&amp;#10;  "Estaciones de Lavaojos",&amp;#10;  "../img/A.jpeg",&amp;#10;  { duration: 3000 }&amp;#10;);</field>
+              <field name="TEXT" editor-height="5" editor-width="996.25">crearCardModulo(&amp;#10;  "Estaciones de Lavaojos",&amp;#10;  "../img/A.jpeg",&amp;#10;  { duration: 2500 }&amp;#10;);</field>
             </shadow>
           </value>
           <next>
@@ -1977,7 +1977,7 @@
       </statement>
     </block>
   </tab>
-  <tab name="C" type="CommonTab" active="false" scrollx="633.25" scrolly="-2951" scale="1">
+  <tab name="C" type="CommonTab" active="false" scrollx="633.25" scrolly="-2692.25" scale="1">
     <block xmlns="https://developers.google.com/blockly/xml" type="procedures_defnoreturn" id="O`G!1)@AamH%zEX++*dz" x="-320" y="488">
       <field name="NAME">vC1</field>
       <comment pinned="false" h="80" w="160">Describe this function...</comment>

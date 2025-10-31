@@ -35,23 +35,24 @@
 }
 
 .v3d-card-modulo {
-  background-color: #333333;
+  background-color: #FFFFFF;
   border-radius: 0px;
   padding: 24px;
   width: 200px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  box-shadow: 0 10px 20px #6C6C6C;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 16px;
+  border-radius: 5%;
 }
 
 .v3d-card-circle {
   width: 120px;
   height: 120px;
-  border-radius: 50%;
+  border-radius: 5%;
   background-color: #d8d8d8;
-  border: 8px solid #999999;
+
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -73,7 +74,7 @@
   font-family: "Inter", "Segoe UI", Roboto, Arial, sans-serif;
   font-weight: 700;
   font-size: 24px;
-  color: white;
+  color:#031795;
   text-align: center;
 }
 

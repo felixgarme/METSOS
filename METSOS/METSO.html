@@ -1,6 +1,4 @@
 <!DOCTYPE html>
-<!-- __V3D_PUZZLES__ - enable Puzzles button in the App Manager -->
-<!-- __V3D_TEMPLATE__ - template-based file; delete this line to prevent this file from being updated -->
 <html lang="en">
 <head>
   <title>Anglo American</title>
@@ -8,22 +6,18 @@
   <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
   <link rel="shortcut icon" href="../img/logo.png">
   <link rel="icon" type="image/png" href="../img/logo.png">
-  <!-- Search Engines -->
-  <meta name="description" content="Interactive 3D Web application made with Verge3D. Immerse yourself in amazing graphics experience offered by state-of-the art WebGL and HTML5 technologies.">
-  <!-- Twitter -->
+  <meta name="description" content="Interactive 3D Web application made with Verge3D. Immerse yourself in amazing graphics experience offered by state-of-the-art WebGL and HTML5 technologies.">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Verge3D Web Interactive">
-  <meta name="twitter:description" content="Interactive 3D Web application made with Verge3D. Immerse yourself in amazing graphics experience offered by state-of-the art WebGL and HTML5 technologies.">
+  <meta name="twitter:description" content="Interactive 3D Web application made with Verge3D. Immerse yourself in amazing graphics experience offered by state-of-the-art WebGL and HTML5 technologies.">
   <meta name="twitter:image:src" content="https://cdn.soft8soft.com/images/player_socials.jpg">
-  <!-- Open Graph -->
   <meta property="og:title" content="Verge3D Web Interactive">
-  <meta property="og:description" content="Interactive 3D Web application made with Verge3D. Immerse yourself in amazing graphics experience offered by state-of-the art WebGL and HTML5 technologies.">
+  <meta property="og:description" content="Interactive 3D Web application made with Verge3D. Immerse yourself in amazing graphics experience offered by state-of-the-art WebGL and HTML5 technologies.">
   <meta property="og:image" content="https://cdn.soft8soft.com/images/player_socials.jpg">
   <meta property="og:type" content="website">
 
   <meta name="generator" content="Verge3D 4.8.0">
 
-  <!-- favicons -->
   <link rel="apple-touch-icon" sizes="180x180" href="media/apple-touch-icon.png">
 
   <link rel="manifest" href="media/manifest.json">
@@ -35,7 +29,6 @@
 
   <link rel="stylesheet" type="text/css" href="METSO.css">
 
-  <!-- ===== Loader styles (añadidos / ajustados) ===== -->
   <style>
     /* Fullscreen loader overlay */
     #v3d-loader{
@@ -69,7 +62,7 @@
       justify-content: center;
       font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
       font-weight: 700;
-      color: #031794;
+      color: #031794; /* Color final de las letras (azul) */
       letter-spacing: 1px;
       /* size responsive: min 28px, max 96px */
       font-size: clamp(28px, 6vw, 96px);
@@ -77,49 +70,67 @@
 
     /*
       Variables:
-        --jump-duration : duración efectiva del salto (por ciclo de salto visible)
-        --cycle-delay   : tiempo de "pausa" entre ciclos
-        --start-delay   : delay inicial antes de que empiecen las secuencias (por ciclo)
-        --i             : índice de la letra para el stagger
+        --paint-duration : duración de la animación de pintado por letra
+        --i              : índice de la letra para el stagger (retraso)
     */
     .v3d-loader-letter{
       display: inline-block;
       transform-origin: center bottom;
-      /* parámetros por defecto (se pueden ajustar) */
-      --jump-duration: 0.9s;
-      --cycle-delay: 0.6s;
-      --start-delay: 0.35s;
-      /* duración total del ciclo = salto visible + pausa entre ciclos */
-      animation-duration: calc(var(--jump-duration) + var(--cycle-delay));
-      animation-name: v3d-jump;
-      animation-timing-function: cubic-bezier(.2,.8,.2,1);
-      animation-iteration-count: infinite;
-      animation-fill-mode: both;
-      /* stagger por letra + delay inicial antes de empezar la primera iteración */
-      animation-delay: calc(var(--start-delay) + (var(--i, 0) * 0.12s));
-      will-change: transform;
+      /* Parámetros para la nueva animación de pintado */
+      --paint-duration: 0.25s; /* Duración que tarda en pintarse cada letra */
+      
+      /* **INICIALMENTE LAS LETRAS SON BLANCAS** (el mismo color que el fondo) */
+      color: #ffffff;
+
+      animation-duration: var(--paint-duration);
+      animation-name: v3d-paint;
+      animation-timing-function: ease-out;
+      animation-iteration-count: 1; /* Solo una vez por letra */
+      animation-fill-mode: forwards; /* Mantiene el estado final (azul) */
+      /* stagger por letra */
+      animation-delay: calc(var(--i, 0) * 0.1s); /* Ajusta el 0.1s para el retraso entre letras */
+      will-change: color;
       /* avoid text selection while loading */
       user-select: none;
       -webkit-user-select: none;
     }
-
-    /* "Jump and fall" keyframes con tiempo de espera (retardo) incorporado:
-       - la porción inicial (0% hasta ~12%) es la preparación/idle,
-       - luego el salto (hasta ~30%),
-       - aterrizaje/overshoot (~50%),
-       - y luego se mantiene en baseline hasta el final del ciclo (pausa).
-    */
-    @keyframes v3d-jump{
-      0%   { transform: translateY(0); }
-      12%  { transform: translateY(0); }          /* pequeña preparación */
-      30%  { transform: translateY(-36px); }      /* pico del salto */
-      50%  { transform: translateY(8px); }        /* overshoot / caída */
-      65%  { transform: translateY(0); }          /* regreso a baseline */
-      100% { transform: translateY(0); }          /* pausa hasta el siguiente ciclo */
+    
+    /* **NUEVOS** keyframes para la animación de pintado */
+    @keyframes v3d-paint{
+      0%   { color: #ffffff; } /* Comienza en color blanco (fondo) */
+      100% { color: #031794; } /* Termina en el color azul definido en .v3d-loader-word */
     }
 
-    /* Clase para forzar pausa inmediata de las letras (usada antes del fade) */
+    /* --- INICIO ESTILOS AÑADIDOS --- */
+
+    /* Estilos para el porcentaje */
+    .v3d-loader-percentage {
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      font-weight: 500; /* Un poco más ligero que el título */
+      font-size: clamp(18px, 3vw, 32px); /* Más pequeño que el título */
+      color: #031794; /* Mismo azul que las letras */
+      margin-top: 25px; /* Espacio superior */
+      letter-spacing: 1px;
+      
+      /* Empieza oculto y aparece con un fundido */
+      opacity: 0;
+      animation: v3d-fade-in 0.5s ease-out 0.5s forwards; /* Aparece después de 0.5s */
+      will-change: opacity, content;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* Keyframes para el fundido de entrada del porcentaje */
+    @keyframes v3d-fade-in {
+      0% { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* --- FIN ESTILOS AÑADIDOS --- */
+
+    /* Clase para forzar pausa inmediata de las letras (ya no es tan relevante, pero se mantiene la lógica de JS) */
     .v3d-loader-paused .v3d-loader-letter {
+      /* La animación de color ya terminó por su fill-mode, pero no hace daño mantenerlo */
       animation-play-state: paused !important;
     }
 
@@ -129,25 +140,28 @@
       pointer-events: none;
     }
 
-    /* Small accessibility improvement on reduced-motion preference */
+    /* Small accessibility improvement on reduced-motion preference (quitamos la animación si no la prefieren) */
     @media (prefers-reduced-motion: reduce) {
       .v3d-loader-letter {
+        /* Si se reduce la moción, mostramos el color final inmediatamente */
         animation: none;
-        transform: translateY(0) !important;
+        color: #031794 !important;
+      }
+      .v3d-loader-percentage {
+        /* Sin animación de entrada */
+        animation: none;
+        opacity: 1;
       }
     }
   </style>
-  <!-- ===== end loader styles ===== -->
-
-</head>
+  </head>
 
 <body>
 
-  <!-- ===== Loader HTML (añadido) ===== -->
   <div id="v3d-loader" aria-hidden="true">
     <div class="v3d-loader-inner">
       <img src="../img/logo.png" style="width: 150px; margin: 30px 30px -35px 0px;">
-      <div class="v3d-loader-word" role="img" aria-label="Metso">
+      <div class="v3d-loader-word" role="img" aria-label="AngloAmerican">
         <span class="v3d-loader-letter" style="--i:0">A</span>
         <span class="v3d-loader-letter" style="--i:1">n</span>
         <span class="v3d-loader-letter" style="--i:2">g</span>
@@ -162,15 +176,14 @@
         <span class="v3d-loader-letter" style="--i:11">a</span>
         <span class="v3d-loader-letter" style="--i:12">n</span>
       </div>
-    </div>
+      
+      <div class="v3d-loader-percentage" id="v3d-loader-percentage">0%</div>
+      </div>
   </div>
-  <!-- ===== end loader HTML ===== -->
-
   <div id="v3d-container">
     <div id="fullscreen-button" class="fullscreen-button fullscreen-open" title="Toggle fullscreen mode"></div>
   </div>
 
-  <!-- ===== Script que escucha / envuelve la llamada v3d.puzzles.procedures["inicio"](); (mejorado) ===== -->
   <script>
     (function(){
       var MAX_TRIES = 200; // hasta ~20s de espera
@@ -179,7 +192,63 @@
       var installed = false;
       var loaderHidden = false;
 
+      // --- INICIO CÓDIGO AÑADIDO ---
+      var percEl = document.getElementById('v3d-loader-percentage');
+      var currentPercentage = 0;
+      var percTimerId; // Usaremos setTimeout
+
+      function updatePercentage() {
+        // Si el loader ya se está ocultando o el elemento no existe, paramos.
+        if (loaderHidden || !percEl) {
+          if (percTimerId) clearTimeout(percTimerId);
+          return;
+        }
+
+        var increment;
+        var nextInterval;
+
+        if (currentPercentage < 80) {
+          // Fase 1: Rápido hasta 80%
+          increment = Math.max(1, Math.floor(Math.random() * 3)); // Incremento aleatorio (1 o 2)
+          nextInterval = 30 + Math.random() * 20; // Intervalo rápido
+        } else if (currentPercentage < 99) {
+          // Fase 2: Lento de 80% a 99%
+          increment = 1; // Incremento de 1
+          nextInterval = 250 + Math.random() * 200; // Intervalo lento
+        } else {
+          // Fase 3: Quedarse en 99%
+          currentPercentage = 99;
+          percEl.textContent = currentPercentage + '%';
+          // No hacemos nada más, ya no re-programamos el timeout
+          return; 
+        }
+        
+        currentPercentage = Math.min(currentPercentage + increment, 99); // Aseguramos no pasar de 99
+        percEl.textContent = currentPercentage + '%';
+        
+        // Re-programar el próximo update
+        percTimerId = setTimeout(updatePercentage, nextInterval);
+      }
+
+      // Iniciar la animación del porcentaje si el elemento existe
+      if (percEl) {
+         percTimerId = setTimeout(updatePercentage, 30); // Inicia el ciclo
+      }
+      // --- FIN CÓDIGO AÑADIDO ---
+
+
       function hideLoaderOnce(){
+        // --- INICIO CÓDIGO MODIFICADO ---
+        // Detener la animación del porcentaje y forzar 100%
+        if (percTimerId) {
+          clearTimeout(percTimerId);
+          percTimerId = null;
+        }
+        if (percEl && !loaderHidden) { // Solo poner 100% la primera vez
+           percEl.textContent = '100%';
+        }
+        // --- FIN CÓDIGO MODIFICADO ---
+
         if (loaderHidden) return;
         loaderHidden = true;
 
@@ -324,8 +393,6 @@
 
     })();
   </script>
-  <!-- ===== end install hook ===== -->
-
-</body>
+  </body>
 
 </html>

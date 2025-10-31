@@ -54,35 +54,40 @@
         /* Estilos visuales (blanco simple) */
         padding: 10px 25px;
         font-size: 16px;
-        font-family: Arial, sans-serif;
-        font-weight: 500;
-        color: #333;
-        background-color: #fff;
-        border: 1px solid #ccc;
-        border-radius: 4px;
+        font-family: AA Smart Sans;
+        font-weight: 600;
+        color: #031795;
+        background-color: #E5EFF9;
+        border: 1px solid #6B8BDE;
+        border-radius: 50px;
         cursor: pointer;
         transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
         min-width: 180px; /* Ancho mínimo para que quepa "Desactivar vista libre" */
         text-align: center;
 
+        box-shadow: 0px 4px 19.2px 2px #6B8BDE66;
+
+
         display: none; 
       }
 
       #${BOTON_ID}:hover {
-        background-color: #f0f0f0;
-        border-color: #aaa;
+        background-color: #031794;
+        border-color: #6B8BDE;
+        color: #FFFFFF;
       }
       
       #${BOTON_ID}:active {
-        background-color: #e0e0e0;
-        border-color: #999;
+        background-color: #E5EFF9;;
+        border-color: #6B8BDE;
         transform: translateX(-50%) translateY(1px);
+        color: #031795;
       }
       
       /* [NUEVO] Estilo para cuando el botón está ACTIVO */
       #${BOTON_ID}.v3d-boton-activo {
-        background-color: #e9e9e9; /* Fondo gris claro */
-        border-color: #999;
+        background-color: #E5EFF9; /* Fondo gris claro */
+        border-color: #6B8BDE;
         font-weight: 600; /* Ligeramente más negrita */
       }
     `;
